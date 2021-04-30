@@ -1,12 +1,15 @@
 package com.quickorderservice.dto.member;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class MemberDTO {
 
     private String id;
