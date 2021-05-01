@@ -1,7 +1,5 @@
 package com.quickorderservice.utiles;
 
-import lombok.extern.log4j.Log4j;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
