@@ -1,5 +1,9 @@
 package com.quickorderservice.service.member;
 
+import com.quickorderservice.dto.member.MemberDTO;
+
+import java.util.List;
+
 /*
     1. 회원 가입 (UserDTO)
     2. 회원 조회 (id)
@@ -11,4 +15,13 @@ package com.quickorderservice.service.member;
  */
 
 public interface MemberService {
+
+    int joinMember(MemberDTO memberDTO) throws Exception;
+    MemberDTO findMemberById(String id) throws IllegalAccessException;
+    int editMemberInfo(MemberDTO editedMemberDTO);
+    int editMemberPassword(String id, String oldPassword, String newPassword) throws Exception;
+    int deleteMember(String id, String password) throws Exception;
+    List<MemberDTO> findAllMembers();
+    int deleteAllMember();
+
 }
