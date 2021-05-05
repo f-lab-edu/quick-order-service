@@ -16,15 +16,15 @@ import java.util.List;
 
 public interface MemberService {
 
-    int joinMember(MemberDTO memberDTO) throws Exception;
+    int joinMember(MemberDTO memberDTO);
 
-    MemberDTO findMemberById(String id) throws IllegalAccessException;
+    MemberDTO findMemberById(String id);
 
     int editMemberInfo(MemberDTO editedMemberDTO);
 
-    int editMemberPassword(String id, String oldPassword, String newPassword) throws Exception;
+    int editMemberPassword(String id, String oldPassword, String newPassword);
 
-    int deleteMember(String id, String password) throws Exception;
+    int deleteMember(String id, String password);
 
     List<MemberDTO> findAllMembers();
 

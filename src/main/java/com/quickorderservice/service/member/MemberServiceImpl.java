@@ -16,21 +16,25 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
     @Override
-    public int joinMember(MemberDTO memberDTO) throws Exception {
+    public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getId()))
-            throw new IllegalAccessException("join member error");
+            throw new IllegalStateException("join member error");
 
-        memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
+        try {
+            memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
+        } catch (Exception e) {
+            throw new IllegalStateException("join member error");
+        }
 
         return memberMapper.insertMember(memberDTO);
     }
 
     @Override
-    public MemberDTO findMemberById(String id) throws IllegalAccessException {
+    public MemberDTO findMemberById(String id) {
         MemberDTO findMember = memberMapper.selectMemberById(id);
 
         if (findMember == null)
-            throw new IllegalAccessException("find Member by id error");
+            throw new IllegalStateException("find Member by id error");
 
         return findMember;
     }
@@ -41,14 +45,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int editMemberPassword(String id, String oldPassword, String newPassword) throws Exception {
+    public int editMemberPassword(String id, String oldPassword, String newPassword) {
         if(!isMatchedIdAndPassword(id,oldPassword))
-            throw new IllegalAccessException("edit member password error");
+            throw new IllegalStateException("edit member password error");
 
-        String newEncryptPassword = SHA256.encBySha256(newPassword);
+        String newEncryptPassword = null;
+        try {
+            newEncryptPassword = SHA256.encBySha256(newPassword);
+        } catch (Exception e) {
+            throw new IllegalStateException("edit member password error");
+        }
 
-        if(SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
-            throw new IllegalAccessException("edit member password error");
+        try {
+            if(SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
+                throw new IllegalStateException("edit member password error");
+        } catch (Exception e) {
+            throw new IllegalStateException("edit member password error");
+        }
 
         MemberDTO member = memberMapper.selectMemberById(id);
         member.setPassword(newEncryptPassword);
@@ -57,9 +70,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int deleteMember(String id, String password) throws Exception {
+    public int deleteMember(String id, String password) {
         if (!isMatchedIdAndPassword(id, password))
-            throw new IllegalAccessException("delete member error");
+            throw new IllegalStateException("delete member error");
 
         return memberMapper.deleteMember(id);
     }
@@ -73,9 +86,14 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.selectMemberById(id) != null;
     }
 
-    private boolean isMatchedIdAndPassword(String id, String password) throws Exception {
+    private boolean isMatchedIdAndPassword(String id, String password) {
         MemberDTO member = memberMapper.selectMemberById(id);
-        return member.getPassword().equals(SHA256.encBySha256(password));
+
+        try {
+            return member.getPassword().equals(SHA256.encBySha256(password));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

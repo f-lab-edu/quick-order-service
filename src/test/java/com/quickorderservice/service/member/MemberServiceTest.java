@@ -3,7 +3,6 @@ package com.quickorderservice.service.member;
 import com.quickorderservice.dto.member.MemberDTO;
 import com.quickorderservice.utiles.SHA256;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 가입")
-    void joinMember() throws Exception {
+    void joinMember() {
         MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
@@ -37,7 +36,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 조회")
-    void findMemberById() throws Exception {
+    void findMemberById() {
         MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
@@ -50,35 +49,35 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("없는 회원 조회")
-    void findMemberByIdWithNoMember() throws IllegalAccessException {
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalAccessException.class, () -> {
+    void findMemberByIdWithNoMember() {
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
             MemberDTO findMember = memberService.findMemberById("noMember");
         });
     }
 
     @Test
     @DisplayName("회원 삭제")
-    void deleteMember() throws Exception {
+    void deleteMember() {
         MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
 
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalAccessException.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
             memberService.deleteMember(member.getId(), "11");
         });
 
         int result = memberService.deleteMember(member.getId(), "1234");
         Assertions.assertThat(result).isEqualTo(1);
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalAccessException.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
             MemberDTO findMember = memberService.findMemberById(member.getId());
         });
     }
 
     @Test
     @DisplayName("회원 수정")
-    void editMemberInfo() throws Exception {
+    void editMemberInfo() {
         MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
@@ -92,7 +91,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 비밀번호 수정")
-    void editMemberPassword() throws Exception {
+    void editMemberPassword() {
         MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
@@ -104,6 +103,10 @@ class MemberServiceTest {
 
         MemberDTO findMember = memberService.findMemberById(member.getId());
         Assertions.assertThat(result).isEqualTo(1);
-        Assertions.assertThat(findMember.getPassword()).isEqualTo(SHA256.encBySha256(newPassword));
+        try {
+            Assertions.assertThat(findMember.getPassword()).isEqualTo(SHA256.encBySha256(newPassword));
+        } catch (Exception e) {
+
+        }
     }
 }
