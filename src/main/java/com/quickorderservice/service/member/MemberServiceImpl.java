@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
         if (isExistMember(memberDTO.getId()))
             throw new IllegalAccessException("join member error");
 
-        memberDTO.setPassword(encryptPassword(memberDTO.getPassword()));
+        memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
 
         return memberMapper.insertMember(memberDTO);
     }
@@ -51,9 +51,9 @@ public class MemberServiceImpl implements MemberService {
         if(!isMatchedIdAndPassword(id,oldPassword))
             throw new IllegalAccessException("edit member password error");
 
-        String newEncryptPassword = encryptPassword(newPassword);
+        String newEncryptPassword = SHA256.encBySha256(newPassword);
 
-        if(encryptPassword(oldPassword).equals(newEncryptPassword))
+        if(SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new IllegalAccessException("edit member password error");
 
         MemberDTO member = memberMapper.selectMemberById(id);
@@ -87,10 +87,7 @@ public class MemberServiceImpl implements MemberService {
     private boolean isMatchedIdAndPassword(String id, String password) throws Exception {
         MemberDTO member = memberMapper.selectMemberById(id);
 
-        return member.getPassword().equals(encryptPassword(password));
+        return member.getPassword().equals(SHA256.encBySha256(password));
     }
 
-    private String encryptPassword(String password) throws Exception {
-        return SHA256.encBySha256(password);
-    }
 }
