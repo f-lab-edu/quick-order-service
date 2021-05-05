@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/*
-    ID 중복 검사 ? ID 존재 유무
-
- */
 
 @Service
 @Primary

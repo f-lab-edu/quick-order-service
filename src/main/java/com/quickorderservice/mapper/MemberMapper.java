@@ -9,10 +9,16 @@ import java.util.List;
 public interface MemberMapper {
 
     int insertMember(MemberDTO memberDTO);
+
     int deleteMember(String id);
+
     MemberDTO selectMemberById(String id);
+
     int updateMember(MemberDTO memberDTO);
+
     int updateMemberPassword(MemberDTO memberDTO);
+
     int deleteAllMembers();
+
     List<MemberDTO> selectAllMembers();
 }

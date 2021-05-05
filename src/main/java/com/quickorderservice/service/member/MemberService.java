@@ -17,11 +17,17 @@ import java.util.List;
 public interface MemberService {
 
     int joinMember(MemberDTO memberDTO) throws Exception;
+
     MemberDTO findMemberById(String id) throws IllegalAccessException;
+
     int editMemberInfo(MemberDTO editedMemberDTO);
+
     int editMemberPassword(String id, String oldPassword, String newPassword) throws Exception;
+
     int deleteMember(String id, String password) throws Exception;
+
     List<MemberDTO> findAllMembers();
+
     int deleteAllMember();
 
 }

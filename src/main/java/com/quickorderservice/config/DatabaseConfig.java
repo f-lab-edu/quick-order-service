@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DatabaseConfig {
+
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactory;
