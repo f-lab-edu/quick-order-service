@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @ToString
 public class MemberDTO {
 
@@ -21,4 +20,13 @@ public class MemberDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((MemberDTO) obj).getId().equals(this.id);
+    }
 }
