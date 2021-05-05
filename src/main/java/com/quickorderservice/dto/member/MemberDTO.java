@@ -1,11 +1,9 @@
 package com.quickorderservice.dto.member;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -28,5 +26,9 @@ public class MemberDTO {
     @Override
     public boolean equals(Object obj) {
         return ((MemberDTO) obj).getId().equals(this.id);
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -80,15 +80,18 @@ class MemberMapperTest {
 
         memberMapper.insertMember(memberDTO1);
 
-        String newName = "myName";
-        memberDTO1.setName(newName);
-        int result = memberMapper.updateMember(memberDTO1);
+        MemberDTO memberDTO2 = new MemberDTO(
+                "test1","1234","newName",
+                "010-0000-000","test@gmail.com","seoul",
+                LocalDateTime.now().withNano(0),LocalDateTime.now().withNano(0));
+
+        int result = memberMapper.updateMember(memberDTO2);
 
         Assertions.assertThat(result).isEqualTo(1);
 
         MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getId());
 
-        Assertions.assertThat(findMember.getName()).isEqualTo(newName);
+        Assertions.assertThat(findMember.getName()).isEqualTo("newName");
     }
 
     @Test
