@@ -28,6 +28,4 @@ public interface MemberService {
 
     List<MemberDTO> findAllMembers();
 
-    int deleteAllMember();
-
 }

@@ -18,7 +18,5 @@ public interface MemberMapper {
 
     int updateMemberPassword(MemberDTO memberDTO);
 
-    int deleteAllMembers();
-
     List<MemberDTO> selectAllMembers();
 }

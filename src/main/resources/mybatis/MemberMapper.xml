@@ -41,8 +41,4 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteAllMembers">
-        delete from members
-    </delete>
-
 </mapper>

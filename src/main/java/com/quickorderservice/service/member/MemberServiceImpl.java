@@ -6,9 +6,7 @@ import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 
 @Service
 @Primary
@@ -71,18 +69,12 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.selectAllMembers();
     }
 
-    @Override
-    public int deleteAllMember() {
-        return memberMapper.deleteAllMembers();
-    }
-
     private boolean isExistMember(String id) {
         return memberMapper.selectMemberById(id) != null;
     }
 
     private boolean isMatchedIdAndPassword(String id, String password) throws Exception {
         MemberDTO member = memberMapper.selectMemberById(id);
-
         return member.getPassword().equals(SHA256.encBySha256(password));
     }
 
