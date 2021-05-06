@@ -2,11 +2,9 @@ package com.quickorderservice.controller;
 
 import com.quickorderservice.dto.member.MemberDTO;
 import com.quickorderservice.service.member.MemberService;
-import lombok.AllArgsConstructor;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
  /*
         회원 관리 API
@@ -30,12 +28,12 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public MemberDTO findMemberById(@PathVariable String id) throws IllegalAccessException {
+    public MemberDTO findMemberById(@PathVariable String id) {
         return memberService.findMemberById(id);
     }
 
     @PostMapping
-    public int joinMember(@ModelAttribute MemberDTO memberDTO) throws Exception {
+    public int joinMember(@ModelAttribute MemberDTO memberDTO) {
         return memberService.joinMember(memberDTO);
     }
 
@@ -45,12 +43,12 @@ public class MemberController {
     }
 
     @PatchMapping("edit/password")
-    public int editMemberPassword(String id, String oldPassword, String newPassword) throws Exception {
-        return memberService.editMemberPassword(id,oldPassword,newPassword);
+    public int editMemberPassword(String id, String oldPassword, String newPassword) {
+        return memberService.editMemberPassword(id, oldPassword, newPassword);
     }
 
     @DeleteMapping
-    public int deleteMember(String id, String password) throws Exception {
+    public int deleteMember(String id, String password) {
         return memberService.deleteMember(id, password);
     }
 }

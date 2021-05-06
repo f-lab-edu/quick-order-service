@@ -6,6 +6,7 @@ import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -20,11 +21,7 @@ public class MemberServiceImpl implements MemberService {
         if (isExistMember(memberDTO.getId()))
             throw new IllegalStateException("join member error");
 
-        try {
-            memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
-        } catch (Exception e) {
-            throw new IllegalStateException("join member error");
-        }
+        memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
 
         return memberMapper.insertMember(memberDTO);
     }
@@ -46,22 +43,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public int editMemberPassword(String id, String oldPassword, String newPassword) {
-        if(!isMatchedIdAndPassword(id,oldPassword))
+        if (!isMatchedIdAndPassword(id, oldPassword))
             throw new IllegalStateException("edit member password error");
 
-        String newEncryptPassword = null;
-        try {
-            newEncryptPassword = SHA256.encBySha256(newPassword);
-        } catch (Exception e) {
-            throw new IllegalStateException("edit member password error");
-        }
+        String newEncryptPassword = SHA256.encBySha256(newPassword);
 
-        try {
-            if(SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
-                throw new IllegalStateException("edit member password error");
-        } catch (Exception e) {
+        if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new IllegalStateException("edit member password error");
-        }
 
         MemberDTO member = memberMapper.selectMemberById(id);
         member.setPassword(newEncryptPassword);
@@ -88,12 +76,7 @@ public class MemberServiceImpl implements MemberService {
 
     private boolean isMatchedIdAndPassword(String id, String password) {
         MemberDTO member = memberMapper.selectMemberById(id);
-
-        try {
-            return member.getPassword().equals(SHA256.encBySha256(password));
-        } catch (Exception e) {
-            return false;
-        }
+        return member.getPassword().equals(SHA256.encBySha256(password));
     }
 
 }

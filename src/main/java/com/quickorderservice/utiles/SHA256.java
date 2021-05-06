@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHA256 {
 
-    public static String encBySha256(String data) throws Exception {
+    public static String encBySha256(String data) {
         String retVal = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
