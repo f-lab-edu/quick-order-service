@@ -5,23 +5,23 @@
 <mapper namespace="com.quickorderservice.mapper.MemberMapper">
 
     <select id="selectAllMembers" resultType="com.quickorderservice.dto.member.MemberDTO">
-        SELECT id, password, name, tel, email, address
+        SELECT userId, password, name, tel, email, address
         FROM members
     </select>
 
     <select id="selectMemberById" resultType="com.quickorderservice.dto.member.MemberDTO">
-        select id, password, name, tel, email, address
+        select userId, password, name, tel, email, address
         from members
-        where id = #{id}
+        where userid = #{userid}
     </select>
 
     <insert id="insertMember">
-        insert into members (id,password,name,tel,email,address)
-        values (#{id},#{password},#{name},#{tel},#{email},#{address})
+        insert into members (userId,password,name,tel,email,address)
+        values (#{userId},#{password},#{name},#{tel},#{email},#{address})
     </insert>
 
     <delete id="deleteMember">
-        delete from members where id = #{id}
+        delete from members where userId = #{userId}
     </delete>
 
     <update id="updateMember">
@@ -31,14 +31,14 @@
         email = #{email},
         address = #{address},
         updatedAt = now()
-        where id = #{id}
+        where userId = #{userId}
     </update>
 
     <update id="updateMemberPassword">
         update members set
         password = #{password},
         updatedAt = now()
-        where id = #{id}
+        where userId = #{userId}
     </update>
 
 </mapper>

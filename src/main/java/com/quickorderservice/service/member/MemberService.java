@@ -15,7 +15,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public int joinMember(MemberDTO memberDTO) {
-        if (isExistMember(memberDTO.getId()))
+        if (isExistMember(memberDTO.getUserId()))
             throw new IllegalStateException("join member error");
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));

@@ -29,7 +29,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 가입")
     void joinMember() {
-        MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         int result = memberService.joinMember(member);
@@ -39,12 +39,12 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 조회")
     void findMemberById() {
-        MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
-        MemberDTO findMember = memberService.findMemberById(member.getId());
+        MemberDTO findMember = memberService.findMemberById(member.getUserId());
 
         Assertions.assertThat(member).isEqualTo(findMember);
     }
@@ -60,32 +60,32 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 삭제")
     void deleteMember() {
-        MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null,"test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
 
         org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
-            memberService.deleteMember(member.getId(), "11");
+            memberService.deleteMember(member.getUserId(), "11");
         });
 
-        int result = memberService.deleteMember(member.getId(), "1234");
+        int result = memberService.deleteMember(member.getUserId(), "1234");
         Assertions.assertThat(result).isEqualTo(1);
         org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
-            MemberDTO findMember = memberService.findMemberById(member.getId());
+            MemberDTO findMember = memberService.findMemberById(member.getUserId());
         });
     }
 
     @Test
     @DisplayName("회원 수정")
     void editMemberInfo() {
-        MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
-        MemberDTO editedMember = new MemberDTO("test", "1234", "park", "010-1111-2222",
+        MemberDTO editedMember = new MemberDTO(null, "test", "1234", "park", "010-1111-2222",
                 "test@google.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.editMemberInfo(editedMember);
@@ -94,16 +94,16 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 비밀번호 수정")
     void editMemberPassword() {
-        MemberDTO member = new MemberDTO("test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
         String newPassword = "7890";
 
-        int result = memberService.editMemberPassword(member.getId(), "1234", newPassword);
+        int result = memberService.editMemberPassword(member.getUserId(), "1234", newPassword);
 
-        MemberDTO findMember = memberService.findMemberById(member.getId());
+        MemberDTO findMember = memberService.findMemberById(member.getUserId());
         Assertions.assertThat(result).isEqualTo(1);
         try {
             Assertions.assertThat(findMember.getPassword()).isEqualTo(SHA256.encBySha256(newPassword));

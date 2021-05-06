@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @ToString
 public class MemberDTO {
 
-    private String id;
+    private Long uid;
+    private String userId;
     private String password;
     private String name;
     private String tel;
@@ -20,12 +21,12 @@ public class MemberDTO {
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return uid.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return ((MemberDTO) obj).getId().equals(this.id);
+        return ((MemberDTO) obj).getUserId().equals(this.getUserId());
     }
 
     public void setPassword(String password) {
