@@ -21,7 +21,7 @@
     </insert>
 
     <delete id="deleteMember">
-        delete from members where userId = #{userId}
+        delete from members where uid = #{uid}
     </delete>
 
     <update id="updateMember">
@@ -31,14 +31,14 @@
         email = #{email},
         address = #{address},
         updatedAt = now()
-        where userId = #{userId}
+        where uid = #{uid}
     </update>
 
     <update id="updateMemberPassword">
         update members set
         password = #{password},
         updatedAt = now()
-        where userId = #{userId}
+        where uid = #{uid}
     </update>
 
 </mapper>
