@@ -46,7 +46,8 @@ class MemberMapperTest {
 
         memberMapper.insertMember(memberDTO);
 
-        int result = memberMapper.deleteMember(memberDTO.getUserId());
+        MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getUserId());
+        int result = memberMapper.deleteMember(findMember.getUid());
         Assertions.assertThat(result).isEqualTo(1);
     }
 
@@ -80,18 +81,20 @@ class MemberMapperTest {
 
         memberMapper.insertMember(memberDTO1);
 
+        MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getUserId());
+
         MemberDTO memberDTO2 = new MemberDTO(
-                null, "test1", "1234", "newName",
-                "010-0000-000", "test@gmail.com", "seoul",
+                findMember.getUid(), "edit", "4567", "newName",
+                "010-1111-2222", "test@gmail.com", "seoul",
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         int result = memberMapper.updateMember(memberDTO2);
 
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getUserId());
 
-        Assertions.assertThat(findMember.getName()).isEqualTo("newName");
+        Assertions.assertThat(findMember2.getName()).isEqualTo("newName");
     }
 
     @Test
@@ -104,13 +107,14 @@ class MemberMapperTest {
         memberMapper.insertMember(memberDTO1);
 
         String newPassword = "9876";
-        memberDTO1.setPassword(newPassword);
-        int result = memberMapper.updateMemberPassword(memberDTO1);
+        MemberDTO findMember1 = memberMapper.selectMemberById(memberDTO1.getUserId());
+        findMember1.setPassword(newPassword);
+        int result = memberMapper.updateMemberPassword(findMember1);
 
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getUserId());
 
-        Assertions.assertThat(findMember.getPassword()).isEqualTo(newPassword);
+        Assertions.assertThat(findMember2.getPassword()).isEqualTo(newPassword);
     }
 }

@@ -58,7 +58,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 삭제")
     void deleteMember() {
-        MemberDTO member = new MemberDTO(null,"test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);

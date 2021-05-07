@@ -5,12 +5,12 @@
 <mapper namespace="com.quickorderservice.mapper.MemberMapper">
 
     <select id="selectAllMembers" resultType="com.quickorderservice.dto.member.MemberDTO">
-        SELECT userId, password, name, tel, email, address
+        SELECT uid, userId, password, name, tel, email, address
         FROM members
     </select>
 
     <select id="selectMemberById" resultType="com.quickorderservice.dto.member.MemberDTO">
-        select userId, password, name, tel, email, address
+        select uid, userId, password, name, tel, email, address
         from members
         where userid = #{userid}
     </select>

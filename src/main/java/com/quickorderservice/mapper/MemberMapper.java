@@ -10,9 +10,9 @@ public interface MemberMapper {
 
     int insertMember(MemberDTO memberDTO);
 
-    int deleteMember(String id);
+    int deleteMember(Long uid);
 
-    MemberDTO selectMemberById(String id);
+    MemberDTO selectMemberById(String userId);
 
     int updateMember(MemberDTO memberDTO);
 
