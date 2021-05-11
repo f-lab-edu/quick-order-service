@@ -59,6 +59,13 @@ public class MemberService {
         return memberMapper.deleteMember(member.getUid());
     }
 
+    public MemberDTO login(String userId, String password) {
+        if (!isMatchedIdAndPassword(userId, password))
+            throw new IllegalStateException("login member error");
+
+        return findMemberById(userId);
+    }
+
     public List<MemberDTO> findAllMembers() {
         return memberMapper.selectAllMembers();
     }

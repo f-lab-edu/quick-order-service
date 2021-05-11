@@ -8,14 +8,7 @@ import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
- /*
-        회원 관리 API
-        회원 목록 조회: GET /members
-        회원 등록: POST /members
-        회원 조회: GET /members/{id}
-        회원 수정: PATCH /members/{id}
-        회원 삭제: DELETE /members/{id}
- */
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/members")
@@ -35,7 +28,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public int joinMember(@ModelAttribute MemberDTO memberDTO) {
+    public int joinMember(@RequestBody MemberDTO memberDTO) {
         return memberService.joinMember(memberDTO);
     }
 
@@ -53,4 +46,18 @@ public class MemberController {
     public int deleteMember(String id, String password) {
         return memberService.deleteMember(id, password);
     }
+
+    @PostMapping("/login")
+    public String login(String userId, String password, HttpSession session) {
+        MemberDTO loginMember = memberService.login(userId, password);
+        session.setAttribute("loginMember", loginMember.getUserId());
+        return userId;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("loginMember");
+        return "logout";
+    }
+
 }
