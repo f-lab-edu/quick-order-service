@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -48,16 +49,16 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(String userId, String password, HttpSession session) {
+    public HttpStatus login(String userId, String password, HttpSession session) {
         MemberDTO loginMember = memberService.login(userId, password);
         session.setAttribute("loginMember", loginMember.getUserId());
-        return userId;
+        return HttpStatus.OK;
     }
 
     @PostMapping("/logout")
-    public String logout(HttpSession session) {
+    public HttpStatus logout(HttpSession session) {
         session.removeAttribute("loginMember");
-        return "logout";
+        return HttpStatus.OK;
     }
 
 }

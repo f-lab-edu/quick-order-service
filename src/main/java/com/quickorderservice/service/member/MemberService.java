@@ -76,6 +76,10 @@ public class MemberService {
 
     private boolean isMatchedIdAndPassword(String userId, String password) {
         MemberDTO member = memberMapper.selectMemberById(userId);
+
+        if(member == null)
+            throw new NullPointerException("member null error");
+
         return member.getPassword().equals(SHA256.encBySha256(password));
     }
 

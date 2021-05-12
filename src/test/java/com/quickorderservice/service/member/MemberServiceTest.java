@@ -109,4 +109,37 @@ class MemberServiceTest {
 
         }
     }
+
+    @Test
+    @DisplayName("로그인 성공")
+    public void loginOk() {
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
+                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        memberService.joinMember(member);
+        MemberDTO loginMember = memberService.login("test", "1234");
+
+        Assertions.assertThat(loginMember.getUserId()).isEqualTo(member.getUserId());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 회원 로그인 시도")
+    public void loginNoMember() {
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> {
+            memberService.login("test", "1234");
+        });
+    }
+
+    @Test
+    @DisplayName("암호가 틀린 로그인 시도")
+    public void loginNoPassword() {
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
+                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        memberService.joinMember(member);
+
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
+            MemberDTO loginMember = memberService.login("test", "12345");
+        });
+    }
 }
