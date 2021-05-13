@@ -37,33 +37,25 @@ public class MemberService {
     }
 
     public int editMemberPassword(String userId, String oldPassword, String newPassword) {
-        if (!isMatchedIdAndPassword(userId, oldPassword))
-            throw new IllegalStateException("edit member password error");
-
+        MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
         String newEncryptPassword = SHA256.encBySha256(newPassword);
 
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new IllegalStateException("edit member password error");
 
-        MemberDTO member = memberMapper.selectMemberById(userId);
         member.setPassword(newEncryptPassword);
 
         return memberMapper.updateMemberPassword(member);
     }
 
     public int deleteMember(String userId, String password) {
-        if (!isMatchedIdAndPassword(userId, password))
-            throw new IllegalStateException("delete member error");
-
-        MemberDTO member = findMemberById(userId);
+        MemberDTO member = findMemberByIdAndPassword(userId, password);
         return memberMapper.deleteMember(member.getUid());
     }
 
     public MemberDTO login(String userId, String password) {
-        if (!isMatchedIdAndPassword(userId, password))
-            throw new IllegalStateException("login member error");
-
-        return findMemberById(userId);
+        MemberDTO member = findMemberByIdAndPassword(userId, password);
+        return member;
     }
 
     public List<MemberDTO> findAllMembers() {
@@ -74,13 +66,13 @@ public class MemberService {
         return memberMapper.selectMemberById(userId) != null;
     }
 
-    private boolean isMatchedIdAndPassword(String userId, String password) {
-        MemberDTO member = memberMapper.selectMemberById(userId);
+    private MemberDTO findMemberByIdAndPassword(String userId, String password) {
+        MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
 
-        if(member == null)
-            throw new NullPointerException("member null error");
+        if (member == null)
+            throw new IllegalArgumentException("wrong Member Id or Password");
 
-        return member.getPassword().equals(SHA256.encBySha256(password));
+        return member;
     }
 
 }

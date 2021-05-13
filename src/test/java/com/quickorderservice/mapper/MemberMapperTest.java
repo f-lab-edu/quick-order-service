@@ -2,6 +2,7 @@ package com.quickorderservice.mapper;
 
 import com.quickorderservice.dto.member.MemberDTO;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +34,22 @@ class MemberMapperTest {
         Assertions.assertThat(result).isEqualTo(1);
 
         MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getUserId());
+        Assertions.assertThat(memberDTO).isEqualTo(findMember);
+
+    }
+
+    @Test
+    @DisplayName("userID와 password로 DB에 있는 멤버를 정상적으로 가져온다.")
+    void insertMemberAndFindMemberByIdAndPassword() {
+        MemberDTO memberDTO = new MemberDTO(
+                null, "test1", "1234", "test",
+                "010-0000-000", "test@gmail.com", "seoul",
+                LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        int result = memberMapper.insertMember(memberDTO);
+        Assertions.assertThat(result).isEqualTo(1);
+
+        MemberDTO findMember = memberMapper.selectMemberByIdAndPassword(memberDTO.getUserId(), memberDTO.getPassword());
         Assertions.assertThat(memberDTO).isEqualTo(findMember);
 
     }
