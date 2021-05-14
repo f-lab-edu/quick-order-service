@@ -53,11 +53,6 @@ public class MemberService {
         return memberMapper.deleteMember(member.getUid());
     }
 
-    public MemberDTO login(String userId, String password) {
-        MemberDTO member = findMemberByIdAndPassword(userId, password);
-        return member;
-    }
-
     public List<MemberDTO> findAllMembers() {
         return memberMapper.selectAllMembers();
     }
@@ -66,7 +61,7 @@ public class MemberService {
         return memberMapper.selectMemberById(userId) != null;
     }
 
-    private MemberDTO findMemberByIdAndPassword(String userId, String password) {
+    public MemberDTO findMemberByIdAndPassword(String userId, String password) {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
 
         if (member == null)

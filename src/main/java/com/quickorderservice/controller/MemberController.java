@@ -4,6 +4,7 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
+import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberLoginService loginService;
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -50,15 +52,16 @@ public class MemberController {
 
     @PostMapping("/login")
     public HttpStatus login(String userId, String password, HttpSession session) {
-        MemberDTO loginMember = memberService.login(userId, password);
-        session.setAttribute("loginMember", loginMember.getUserId());
-        return HttpStatus.OK;
+        return loginService.login(userId, password, session);
     }
 
     @PostMapping("/logout")
     public HttpStatus logout(HttpSession session) {
-        session.removeAttribute("loginMember");
-        return HttpStatus.OK;
+        return loginService.logout(session);
     }
 
+    @GetMapping("/login")
+    public String getMember(HttpSession session) {
+        return loginService.getMemberId(session);
+    }
 }
