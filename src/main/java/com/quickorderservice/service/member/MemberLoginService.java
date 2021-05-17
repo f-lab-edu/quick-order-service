@@ -13,23 +13,24 @@ public class MemberLoginService {
 
     private final String MEMBER_ID = "MemberId";
     private final MemberService memberService;
+    private final HttpSession httpSession;
 
-    public HttpStatus login(String userId, String password, HttpSession httpSession) {
+    public HttpStatus login(String userId, String password) {
         try {
             MemberDTO loginMember = memberService.findMemberByIdAndPassword(userId, password);
             httpSession.setAttribute(MEMBER_ID, userId);
-        }catch (IllegalArgumentException e) {
-            return HttpStatus.UNAUTHORIZED;
+        } catch (IllegalArgumentException e) {
+            return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.OK;
     }
 
-    public HttpStatus logout(HttpSession httpSession) {
+    public HttpStatus logout() {
         httpSession.removeAttribute(MEMBER_ID);
         return HttpStatus.OK;
     }
 
-    public String getMemberId(HttpSession httpSession) {
-        return (String)httpSession.getAttribute(MEMBER_ID);
+    public String getMemberId() {
+        return (String) httpSession.getAttribute(MEMBER_ID);
     }
 }

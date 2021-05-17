@@ -52,16 +52,16 @@ public class MemberController {
 
     @PostMapping("/login")
     public HttpStatus login(String userId, String password, HttpSession session) {
-        return loginService.login(userId, password, session);
+        return loginService.login(userId, password);
     }
 
     @PostMapping("/logout")
     public HttpStatus logout(HttpSession session) {
-        return loginService.logout(session);
+        return loginService.logout();
     }
 
     @GetMapping("/login")
     public String getMember(HttpSession session) {
-        return loginService.getMemberId(session);
+        return loginService.getMemberId();
     }
 }
