@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,22 +16,19 @@ public class MemberLoginService {
     private final MemberService memberService;
     private final HttpSession httpSession;
 
-    public HttpStatus login(String userId, String password) {
-        try {
-            MemberDTO loginMember = memberService.findMemberByIdAndPassword(userId, password);
-            httpSession.setAttribute(MEMBER_ID, userId);
-        } catch (IllegalArgumentException e) {
-            return HttpStatus.BAD_REQUEST;
-        }
-        return HttpStatus.OK;
+    public MemberDTO login(String userId, String password) {
+        MemberDTO loginMember = memberService.findMemberByIdAndPassword(userId, password);
+        
+        httpSession.setAttribute(MEMBER_ID, userId);
+
+        return loginMember;
     }
 
-    public HttpStatus logout() {
+    public void logout() {
         httpSession.removeAttribute(MEMBER_ID);
-        return HttpStatus.OK;
     }
 
-    public String getMemberId() {
+    public String getLoginMemberId() {
         return (String) httpSession.getAttribute(MEMBER_ID);
     }
 }

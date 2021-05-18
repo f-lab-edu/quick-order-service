@@ -4,6 +4,7 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
@@ -51,17 +52,23 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public HttpStatus login(String userId, String password, HttpSession session) {
-        return loginService.login(userId, password);
+    public HttpStatus login(String userId, String password) {
+        try {
+            MemberDTO loginMember = loginService.login(userId, password);
+        } catch (NotFoundMemberException e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+        return HttpStatus.OK;
     }
 
     @PostMapping("/logout")
-    public HttpStatus logout(HttpSession session) {
-        return loginService.logout();
+    public HttpStatus logout() {
+        loginService.logout();
+        return HttpStatus.OK;
     }
 
     @GetMapping("/login")
-    public String getMember(HttpSession session) {
-        return loginService.getMemberId();
+    public String getMember() {
+        return loginService.getLoginMemberId();
     }
 }

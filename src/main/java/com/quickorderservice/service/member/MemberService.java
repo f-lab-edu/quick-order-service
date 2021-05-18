@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberById(userId);
 
         if (findMember == null)
-            throw new IllegalStateException("find Member by id error");
+            throw new NotFoundMemberException();
 
         return findMember;
     }
@@ -65,7 +66,7 @@ public class MemberService {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
 
         if (member == null)
-            throw new IllegalArgumentException("wrong Member Id or Password");
+            throw new NotFoundMemberException();
 
         return member;
     }
