@@ -1,6 +1,8 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.member.EditMemberException;
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.utiles.SHA256;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +54,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("없는 회원 조회")
     void findMemberByIdWithNoMember() {
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(NotFoundMemberException.class, () -> {
             MemberDTO findMember = memberService.findMemberById("noMember");
         });
     }
@@ -65,7 +67,7 @@ class MemberServiceTest {
 
         memberService.joinMember(member);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(NotFoundMemberException.class, () -> {
             memberService.deleteMember(member.getUserId(), "11");
         });
 
@@ -77,38 +79,62 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("회원 수정")
+    @DisplayName("정상적으로 회원 정보 수정시 1을 반환한다.")
     void editMemberInfo() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
-        MemberDTO editedMember = new MemberDTO(null, "test", "1234", "park", "010-1111-2222",
-                "test@google.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+        MemberDTO findMember = memberService.findMemberById(member.getUserId());
 
-        memberService.editMemberInfo(editedMember);
+        int updatedCount = memberService.editMemberInfo(findMember);
+
+        Assertions.assertThat(updatedCount).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("회원 비밀번호 수정")
+    @DisplayName("정상적으로 비밀번호 수정시 1을 반환한다.")
     void editMemberPassword() {
-        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
+        String oldPassword = "1234";
+        String newPassword = "7890";
+        MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
-        String newPassword = "7890";
+        int updatedCount = memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
 
-        int result = memberService.editMemberPassword(member.getUserId(), "1234", newPassword);
-
-        MemberDTO findMember = memberService.findMemberById(member.getUserId());
-        Assertions.assertThat(result).isEqualTo(1);
-        try {
-            Assertions.assertThat(findMember.getPassword()).isEqualTo(SHA256.encBySha256(newPassword));
-        } catch (Exception e) {
-
-        }
+        Assertions.assertThat(updatedCount).isEqualTo(1);
     }
 
+    @Test
+    @DisplayName("비밀번호 수정 시 기존의 비밀번호를 잘못입력하면 EditMemberException이 발생한다.")
+    void editMemberPasswordWithWrongPassword() {
+        String oldPassword = "1234";
+        String newPassword = "7890";
+        MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
+                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        memberService.joinMember(member);
+
+        assertThrows(EditMemberException.class,()->{
+            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
+        });
+    }
+
+    @Test
+    @DisplayName("비밀번호 수정 시 기존의 비밀번호와 같으면 EditMemberException이 발생한다.")
+    void editMemberPasswordWithSamePassword() {
+        String oldPassword = "1234";
+        String newPassword = "1234";
+        MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
+                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        memberService.joinMember(member);
+
+        assertThrows(EditMemberException.class,()->{
+            memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
+        });
+    }
 }
