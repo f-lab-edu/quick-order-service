@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.member.EditMemberException;
 import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
@@ -42,7 +43,7 @@ public class MemberService {
         String newEncryptPassword = SHA256.encBySha256(newPassword);
 
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
-            throw new IllegalStateException("edit member password error");
+            throw new EditMemberException("수정된 비밀번호가 이전과 같습니다.");
 
         member.setPassword(newEncryptPassword);
 

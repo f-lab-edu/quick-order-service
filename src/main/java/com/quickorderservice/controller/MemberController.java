@@ -37,7 +37,7 @@ public class MemberController {
     }
 
     @PatchMapping("/edit/info")
-    public int editMemberInfo(@ModelAttribute MemberDTO memberDTO) {
+    public int editMemberInfo(@RequestBody MemberDTO memberDTO) {
         return memberService.editMemberInfo(memberDTO);
     }
 
