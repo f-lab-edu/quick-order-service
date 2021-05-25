@@ -4,11 +4,9 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
-import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,8 +66,4 @@ public class MemberController {
         return loginService.getLoginMemberId();
     }
 
-    @ExceptionHandler
-    public ResponseEntity notFoundExceptionHandler(NotFoundMemberException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
 }
