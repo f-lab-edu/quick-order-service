@@ -19,6 +19,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberLoginService loginService;
+    private final ResponseEntity<String> RESPONSE_OK = ResponseEntity.ok().body("OK");
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -53,13 +54,13 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity login(String userId, String password) {
         loginService.login(userId, password);
-        return ResponseEntity.ok().body("OK");
+        return RESPONSE_OK;
     }
 
     @PostMapping("/logout")
     public ResponseEntity logout() {
         loginService.logout();
-        return ResponseEntity.ok().body("OK");
+        return RESPONSE_OK;
     }
 
     @GetMapping("/login")
