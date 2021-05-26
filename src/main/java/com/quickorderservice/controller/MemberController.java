@@ -45,8 +45,9 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public int deleteMember(String id, String password) {
-        return memberService.deleteMember(id, password);
+    public ResponseEntity deleteMember(String id, String password) {
+        memberService.deleteMember(id, password);
+        return RESPONSE_OK;
     }
 
     @PostMapping("/login")
