@@ -4,14 +4,11 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
-import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/members")
@@ -20,6 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberLoginService loginService;
+    private final ResponseEntity<String> RESPONSE_OK = ResponseEntity.ok().body("OK");
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -52,23 +50,20 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public HttpStatus login(String userId, String password) {
-        try {
-            MemberDTO loginMember = loginService.login(userId, password);
-        } catch (NotFoundMemberException e) {
-            return HttpStatus.BAD_REQUEST;
-        }
-        return HttpStatus.OK;
+    public ResponseEntity login(String userId, String password) {
+        loginService.login(userId, password);
+        return RESPONSE_OK;
     }
 
     @PostMapping("/logout")
-    public HttpStatus logout() {
+    public ResponseEntity logout() {
         loginService.logout();
-        return HttpStatus.OK;
+        return RESPONSE_OK;
     }
 
     @GetMapping("/login")
     public String getMember() {
         return loginService.getLoginMemberId();
     }
+
 }

@@ -16,12 +16,9 @@ public class MemberLoginService {
     private final MemberService memberService;
     private final HttpSession httpSession;
 
-    public MemberDTO login(String userId, String password) {
+    public void login(String userId, String password) {
         MemberDTO loginMember = memberService.findMemberByIdAndPassword(userId, password);
-        
         httpSession.setAttribute(MEMBER_ID, userId);
-
-        return loginMember;
     }
 
     public void logout() {
