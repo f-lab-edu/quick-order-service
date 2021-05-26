@@ -29,19 +29,21 @@ public class MemberController {
         return memberService.findMemberById(id);
     }
 
-    @PostMapping
+    @PostMapping("/join")
     public int joinMember(@RequestBody MemberDTO memberDTO) {
         return memberService.joinMember(memberDTO);
     }
 
     @PatchMapping("/edit/info")
-    public int editMemberInfo(@RequestBody MemberDTO memberDTO) {
-        return memberService.editMemberInfo(memberDTO);
+    public ResponseEntity editMemberInfo(@RequestBody MemberDTO memberDTO) {
+        memberService.editMemberInfo(memberDTO);
+        return RESPONSE_OK;
     }
 
-    @PatchMapping("edit/password")
-    public int editMemberPassword(String id, String oldPassword, String newPassword) {
-        return memberService.editMemberPassword(id, oldPassword, newPassword);
+    @PatchMapping("/edit/password")
+    public ResponseEntity editMemberPassword(String userId, String oldPassword, String newPassword) {
+        memberService.editMemberPassword(userId, oldPassword, newPassword);
+        return RESPONSE_OK;
     }
 
     @DeleteMapping
