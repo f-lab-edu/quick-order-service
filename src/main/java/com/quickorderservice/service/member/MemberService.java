@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberById(userId);
 
         if (findMember == null)
-            throw new IllegalStateException("find Member by id error");
+            throw new NotFoundMemberException();
 
         return findMember;
     }
@@ -37,25 +38,19 @@ public class MemberService {
     }
 
     public int editMemberPassword(String userId, String oldPassword, String newPassword) {
-        if (!isMatchedIdAndPassword(userId, oldPassword))
-            throw new IllegalStateException("edit member password error");
-
+        MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
         String newEncryptPassword = SHA256.encBySha256(newPassword);
 
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new IllegalStateException("edit member password error");
 
-        MemberDTO member = memberMapper.selectMemberById(userId);
         member.setPassword(newEncryptPassword);
 
         return memberMapper.updateMemberPassword(member);
     }
 
     public int deleteMember(String userId, String password) {
-        if (!isMatchedIdAndPassword(userId, password))
-            throw new IllegalStateException("delete member error");
-
-        MemberDTO member = findMemberById(userId);
+        MemberDTO member = findMemberByIdAndPassword(userId, password);
         return memberMapper.deleteMember(member.getUid());
     }
 
@@ -67,9 +62,13 @@ public class MemberService {
         return memberMapper.selectMemberById(userId) != null;
     }
 
-    private boolean isMatchedIdAndPassword(String userId, String password) {
-        MemberDTO member = memberMapper.selectMemberById(userId);
-        return member.getPassword().equals(SHA256.encBySha256(password));
+    public MemberDTO findMemberByIdAndPassword(String userId, String password) {
+        MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
+
+        if (member == null)
+            throw new NotFoundMemberException();
+
+        return member;
     }
 
 }

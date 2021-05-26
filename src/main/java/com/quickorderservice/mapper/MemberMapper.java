@@ -2,6 +2,7 @@ package com.quickorderservice.mapper;
 
 import com.quickorderservice.dto.member.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface MemberMapper {
     int updateMemberPassword(MemberDTO memberDTO);
 
     List<MemberDTO> selectAllMembers();
+
+    MemberDTO selectMemberByIdAndPassword(@Param("userid") String userId, @Param("password") String password);
+
 }

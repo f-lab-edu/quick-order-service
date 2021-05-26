@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 @Transactional
 class MemberServiceTest {
@@ -50,7 +52,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("없는 회원 조회")
     void findMemberByIdWithNoMember() {
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             MemberDTO findMember = memberService.findMemberById("noMember");
         });
     }
@@ -63,14 +65,13 @@ class MemberServiceTest {
 
         memberService.joinMember(member);
 
-
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             memberService.deleteMember(member.getUserId(), "11");
         });
 
         int result = memberService.deleteMember(member.getUserId(), "1234");
         Assertions.assertThat(result).isEqualTo(1);
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             MemberDTO findMember = memberService.findMemberById(member.getUserId());
         });
     }
@@ -109,4 +110,5 @@ class MemberServiceTest {
 
         }
     }
+
 }

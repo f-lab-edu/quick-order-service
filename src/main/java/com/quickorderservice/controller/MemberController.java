@@ -4,18 +4,11 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
+import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
- /*
-        회원 관리 API
-        회원 목록 조회: GET /members
-        회원 등록: POST /members
-        회원 조회: GET /members/{id}
-        회원 수정: PATCH /members/{id}
-        회원 삭제: DELETE /members/{id}
- */
 
 @RestController
 @RequestMapping("/members")
@@ -23,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberLoginService loginService;
+    private final ResponseEntity<String> RESPONSE_OK = ResponseEntity.ok().body("OK");
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -35,7 +30,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public int joinMember(@ModelAttribute MemberDTO memberDTO) {
+    public int joinMember(@RequestBody MemberDTO memberDTO) {
         return memberService.joinMember(memberDTO);
     }
 
@@ -53,4 +48,22 @@ public class MemberController {
     public int deleteMember(String id, String password) {
         return memberService.deleteMember(id, password);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity login(String userId, String password) {
+        loginService.login(userId, password);
+        return RESPONSE_OK;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout() {
+        loginService.logout();
+        return RESPONSE_OK;
+    }
+
+    @GetMapping("/login")
+    public String getMember() {
+        return loginService.getLoginMemberId();
+    }
+
 }
