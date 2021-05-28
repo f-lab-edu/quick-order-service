@@ -29,19 +29,19 @@ public class MemberController {
         return memberService.findMemberById(id);
     }
 
-    @PostMapping("/join")
+    @PostMapping
     public int joinMember(@RequestBody MemberDTO memberDTO) {
         return memberService.joinMember(memberDTO);
     }
 
-    @PatchMapping("/edit/info")
-    public ResponseEntity editMemberInfo(@RequestBody MemberDTO memberDTO) {
-        memberService.editMemberInfo(memberDTO);
+    @PatchMapping("/{userId}")
+    public ResponseEntity<String> editMemberInfo(@RequestBody MemberDTO editedMember) {
+        memberService.editMemberInfo(editedMember);
         return RESPONSE_OK;
     }
 
-    @PatchMapping("/edit/password")
-    public ResponseEntity editMemberPassword(String userId, String oldPassword, String newPassword) {
+    @PatchMapping("/{userId}/password")
+    public ResponseEntity<String> editMemberPassword(@PathVariable String userId, String oldPassword, String newPassword) {
         memberService.editMemberPassword(userId, oldPassword, newPassword);
         return RESPONSE_OK;
     }
@@ -52,13 +52,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(String userId, String password) {
+    public ResponseEntity<String> login(String userId, String password) {
         loginService.login(userId, password);
         return RESPONSE_OK;
     }
 
     @PostMapping("/logout")
-    public ResponseEntity logout() {
+    public ResponseEntity<String> logout() {
         loginService.logout();
         return RESPONSE_OK;
     }

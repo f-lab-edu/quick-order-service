@@ -39,12 +39,7 @@ public class MemberService {
     }
 
     public int editMemberPassword(String userId, String oldPassword, String newPassword) {
-        MemberDTO member;
-        try {
-            member = findMemberByIdAndPassword(userId, oldPassword);
-        } catch (NotFoundMemberException e) {
-            throw new EditMemberException("비밀번호가 틀립니다.");
-        }
+        MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
