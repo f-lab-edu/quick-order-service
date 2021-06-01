@@ -26,6 +26,11 @@ public class MemberLoginService {
     }
 
     public String getLoginMemberId() {
+        String userId = (String) httpSession.getAttribute(MEMBER_ID);
+
+        if(userId == null)
+            throw new NotFoundMemberException("로그인이 필요합니다.");
+
         return (String) httpSession.getAttribute(MEMBER_ID);
     }
 }

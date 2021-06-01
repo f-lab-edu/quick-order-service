@@ -7,7 +7,6 @@ import java.util.List;
 import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,14 +32,14 @@ public class MemberController {
         return memberService.joinMember(memberDTO);
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping
     public void editMemberInfo(@RequestBody MemberDTO editedMember) {
         memberService.editMemberInfo(editedMember);
     }
 
-    @PatchMapping("/{userId}/password")
-    public void editMemberPassword(@PathVariable String userId, String oldPassword, String newPassword) {
-        memberService.editMemberPassword(userId, oldPassword, newPassword);
+    @PatchMapping("/password")
+    public void editMemberPassword(String oldPassword, String newPassword) {
+        memberService.editMemberPassword(oldPassword, newPassword);
     }
 
     @DeleteMapping

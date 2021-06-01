@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired
-    MemberService memberService;
+    @Autowired MemberService memberService;
+    @Autowired MemberLoginService loginService;
 
     @Test
     @DisplayName("memberService 의존 관계 주입 확인")
@@ -85,7 +85,7 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
-
+        loginService.login(member.getUserId(), "1234");
         MemberDTO findMember = memberService.findMemberById(member.getUserId());
 
         memberService.editMemberInfo(findMember);
@@ -100,12 +100,13 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
+        loginService.login(member.getUserId(), oldPassword);
 
-        memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
+        memberService.editMemberPassword(oldPassword, newPassword);
     }
 
     @Test
-    @DisplayName("비밀번호 수정 시 기존의 비밀번호를 잘못입력하면 EditMemberException이 발생한다.")
+    @DisplayName("비밀번호 수정 시 기존의 비밀번호를 잘못입력하면 NotFoundMemberException 발생한다.")
     void editMemberPasswordWithWrongPassword() {
         String oldPassword = "1234";
         String newPassword = "7890";
@@ -113,9 +114,10 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
+        loginService.login(member.getUserId(), oldPassword);
 
-        assertThrows(EditMemberException.class,()->{
-            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
+        assertThrows(NotFoundMemberException.class, () -> {
+            memberService.editMemberPassword(oldPassword + 1, newPassword);
         });
     }
 
@@ -128,9 +130,10 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
+        loginService.login(member.getUserId(), oldPassword);
 
-        assertThrows(EditMemberException.class,()->{
-            memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
+        assertThrows(EditMemberException.class, () -> {
+            memberService.editMemberPassword(oldPassword, newPassword);
         });
     }
 }
