@@ -17,7 +17,6 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberLoginService loginService;
-    private final ResponseEntity<String> RESPONSE_OK = ResponseEntity.ok().body("OK");
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -35,15 +34,13 @@ public class MemberController {
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<String> editMemberInfo(@RequestBody MemberDTO editedMember) {
+    public void editMemberInfo(@RequestBody MemberDTO editedMember) {
         memberService.editMemberInfo(editedMember);
-        return RESPONSE_OK;
     }
 
     @PatchMapping("/{userId}/password")
-    public ResponseEntity<String> editMemberPassword(@PathVariable String userId, String oldPassword, String newPassword) {
+    public void editMemberPassword(@PathVariable String userId, String oldPassword, String newPassword) {
         memberService.editMemberPassword(userId, oldPassword, newPassword);
-        return RESPONSE_OK;
     }
 
     @DeleteMapping
@@ -52,15 +49,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(String userId, String password) {
+    public void login(String userId, String password) {
         loginService.login(userId, password);
-        return RESPONSE_OK;
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public void logout() {
         loginService.logout();
-        return RESPONSE_OK;
     }
 
     @GetMapping("/login")
