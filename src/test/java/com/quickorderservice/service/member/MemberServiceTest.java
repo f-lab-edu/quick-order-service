@@ -79,7 +79,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("정상적으로 회원 정보 수정시 1을 반환한다.")
+    @DisplayName("정상적으로 회원 정보 수정시 에러가 발생하지 않는다.")
     void editMemberInfo() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
@@ -88,13 +88,11 @@ class MemberServiceTest {
 
         MemberDTO findMember = memberService.findMemberById(member.getUserId());
 
-        int updatedCount = memberService.editMemberInfo(findMember);
-
-        Assertions.assertThat(updatedCount).isEqualTo(1);
+        memberService.editMemberInfo(findMember);
     }
 
     @Test
-    @DisplayName("정상적으로 비밀번호 수정시 1을 반환한다.")
+    @DisplayName("정상적으로 비밀번호 수정시 에러가 발생하지 않는다.")
     void editMemberPassword() {
         String oldPassword = "1234";
         String newPassword = "7890";
@@ -103,9 +101,7 @@ class MemberServiceTest {
 
         memberService.joinMember(member);
 
-        int updatedCount = memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
-
-        Assertions.assertThat(updatedCount).isEqualTo(1);
+        memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
     }
 
     @Test

@@ -7,11 +7,13 @@ import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberMapper memberMapper;
@@ -34,11 +36,13 @@ public class MemberService {
         return findMember;
     }
 
-    public int editMemberInfo(MemberDTO editedMemberDTO) {
-        return memberMapper.updateMember(editedMemberDTO);
+    public void editMemberInfo(MemberDTO editedMemberDTO) {
+        int updatedCount = memberMapper.updateMember(editedMemberDTO);
+        if (updatedCount != 1)
+            throw new EditMemberException();
     }
 
-    public int editMemberPassword(String userId, String oldPassword, String newPassword) {
+    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
         MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
@@ -47,7 +51,10 @@ public class MemberService {
 
         member.setPassword(newEncryptPassword);
 
-        return memberMapper.updateMemberPassword(member);
+        int updatedCount = memberMapper.updateMemberPassword(member);
+
+        if (updatedCount != 1)
+            throw new EditMemberException();
     }
 
     public int deleteMember(String userId, String password) {
