@@ -102,7 +102,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getUserId(), oldPassword);
 
-        memberService.editMemberPassword(oldPassword, newPassword);
+        memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
     }
 
     @Test
@@ -117,7 +117,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(NotFoundMemberException.class, () -> {
-            memberService.editMemberPassword(oldPassword + 1, newPassword);
+            memberService.editMemberPassword(member.getUserId(),oldPassword + 1, newPassword);
         });
     }
 
@@ -133,7 +133,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(EditMemberException.class, () -> {
-            memberService.editMemberPassword(oldPassword, newPassword);
+            memberService.editMemberPassword(member.getUserId(),oldPassword, newPassword);
         });
     }
 }

@@ -14,15 +14,10 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class MemberService {
 
     private final MemberMapper memberMapper;
-    private final MemberLoginService loginService;
-
-    public MemberService(MemberMapper memberMapper, @Lazy MemberLoginService loginService) {
-        this.memberMapper = memberMapper;
-        this.loginService = loginService;
-    }
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getUserId()))
@@ -43,14 +38,12 @@ public class MemberService {
     }
 
     public void editMemberInfo(MemberDTO editedMemberDTO) {
-        String userId = loginService.getLoginMemberId();
         int updatedCount = memberMapper.updateMember(editedMemberDTO);
         if (updatedCount != 1)
             throw new EditMemberException();
     }
 
-    public void editMemberPassword(String oldPassword, String newPassword) {
-        String userId = loginService.getLoginMemberId();
+    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
         MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
