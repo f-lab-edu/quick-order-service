@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final HttpSession session;
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getUserId()))
@@ -40,10 +42,11 @@ public class MemberService {
     public void editMemberInfo(MemberDTO editedMemberDTO) {
         int updatedCount = memberMapper.updateMember(editedMemberDTO);
         if (updatedCount != 1)
-            throw new EditMemberException();
+            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
     }
 
-    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
+    public void editMemberPassword(String oldPassword, String newPassword) {
+        String userId = (String) session.getAttribute("MemberId");
         MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
@@ -54,7 +57,7 @@ public class MemberService {
 
         int updatedCount = memberMapper.updateMemberPassword(member);
         if (updatedCount != 1)
-            throw new EditMemberException();
+            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
     }
 
     public int deleteMember(String userId, String password) {

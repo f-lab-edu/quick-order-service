@@ -39,10 +39,10 @@ public class MemberController {
         memberService.editMemberInfo(editedMember);
     }
 
-    @PatchMapping("/password")
+    @PatchMapping("/my-infor/password")
     @LoginCheck
-    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
-        memberService.editMemberPassword(userId, oldPassword, newPassword);
+    public void editMemberPassword(String oldPassword, String newPassword) {
+        memberService.editMemberPassword(oldPassword, newPassword);
     }
 
     @DeleteMapping
