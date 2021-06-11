@@ -3,7 +3,6 @@ package com.quickorderservice.service.member;
 import com.quickorderservice.dto.member.MemberDTO;
 import com.quickorderservice.exception.member.EditMemberException;
 import com.quickorderservice.exception.member.NotFoundMemberException;
-import com.quickorderservice.utiles.SHA256;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,7 +101,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getUserId(), oldPassword);
 
-        memberService.editMemberPassword(oldPassword, newPassword);
+        memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
     }
 
     @Test
@@ -117,7 +116,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(NotFoundMemberException.class, () -> {
-            memberService.editMemberPassword(oldPassword + 1, newPassword);
+            memberService.editMemberPassword(member.getUserId(),oldPassword + 1, newPassword);
         });
     }
 
@@ -133,7 +132,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(EditMemberException.class, () -> {
-            memberService.editMemberPassword(oldPassword, newPassword);
+            memberService.editMemberPassword(member.getUserId(),oldPassword, newPassword);
         });
     }
 }

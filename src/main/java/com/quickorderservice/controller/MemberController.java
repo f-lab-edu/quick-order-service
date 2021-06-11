@@ -35,14 +35,14 @@ public class MemberController {
 
     @PatchMapping
     @LoginCheck
-    public void editMemberInfo(@RequestBody MemberDTO editedMember) {
+    public void editMemberInfo(String userId, @RequestBody MemberDTO editedMember) {
         memberService.editMemberInfo(editedMember);
     }
 
-    @PatchMapping("/my-infor/password")
+    @PatchMapping("/my-infos/password")
     @LoginCheck
-    public void editMemberPassword(String oldPassword, String newPassword) {
-        memberService.editMemberPassword(oldPassword, newPassword);
+    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
+        memberService.editMemberPassword(userId, oldPassword, newPassword);
     }
 
     @DeleteMapping

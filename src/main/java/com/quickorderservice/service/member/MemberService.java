@@ -6,11 +6,9 @@ import com.quickorderservice.exception.member.NotFoundMemberException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -19,7 +17,6 @@ import java.util.List;
 public class MemberService {
 
     private final MemberMapper memberMapper;
-    private final HttpSession session;
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getUserId()))
@@ -45,8 +42,7 @@ public class MemberService {
             throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
     }
 
-    public void editMemberPassword(String oldPassword, String newPassword) {
-        String userId = (String) session.getAttribute("MemberId");
+    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
         MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
