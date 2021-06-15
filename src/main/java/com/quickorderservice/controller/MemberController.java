@@ -1,6 +1,7 @@
 package com.quickorderservice.controller;
 
 import com.quickorderservice.aop.auth.LoginCheck;
+import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
@@ -34,14 +35,12 @@ public class MemberController {
     }
 
     @PatchMapping
-    @LoginCheck
-    public void editMemberInfo(String userId, @RequestBody MemberDTO editedMember) {
+    public void editMemberInfo(@MemberId String userId, @RequestBody MemberDTO editedMember) {
         memberService.editMemberInfo(editedMember);
     }
 
     @PatchMapping("/my-infos/password")
-    @LoginCheck
-    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
+    public void editMemberPassword(@MemberId String userId, String oldPassword, String newPassword) {
         memberService.editMemberPassword(userId, oldPassword, newPassword);
     }
 
