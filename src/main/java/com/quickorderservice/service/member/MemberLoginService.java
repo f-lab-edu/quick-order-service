@@ -26,6 +26,7 @@ public class MemberLoginService {
     }
 
     public String getLoginMemberId() {
+        String userId = (String) httpSession.getAttribute(MEMBER_ID);
         return (String) httpSession.getAttribute(MEMBER_ID);
     }
 }

@@ -1,5 +1,7 @@
 package com.quickorderservice.controller;
 
+import com.quickorderservice.aop.auth.LoginCheck;
+import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.List;
 import com.quickorderservice.service.member.MemberLoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberLoginService loginService;
-    private final ResponseEntity<String> RESPONSE_OK = ResponseEntity.ok().body("OK");
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -34,14 +34,14 @@ public class MemberController {
         return memberService.joinMember(memberDTO);
     }
 
-    @PatchMapping("/edit/info")
-    public int editMemberInfo(@ModelAttribute MemberDTO memberDTO) {
-        return memberService.editMemberInfo(memberDTO);
+    @PatchMapping
+    public void editMemberInfo(@MemberId String userId, @RequestBody MemberDTO editedMember) {
+        memberService.editMemberInfo(editedMember);
     }
 
-    @PatchMapping("edit/password")
-    public int editMemberPassword(String id, String oldPassword, String newPassword) {
-        return memberService.editMemberPassword(id, oldPassword, newPassword);
+    @PatchMapping("/my-infos/password")
+    public void editMemberPassword(@MemberId String userId, String oldPassword, String newPassword) {
+        memberService.editMemberPassword(userId, oldPassword, newPassword);
     }
 
     @DeleteMapping
@@ -51,15 +51,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(String userId, String password) {
+    public void login(String userId, String password) {
         loginService.login(userId, password);
-        return RESPONSE_OK;
     }
 
     @PostMapping("/logout")
-    public ResponseEntity logout() {
+    public void logout() {
         loginService.logout();
-        return RESPONSE_OK;
     }
 
     @GetMapping("/login")
