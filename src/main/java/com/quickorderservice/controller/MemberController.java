@@ -1,6 +1,5 @@
 package com.quickorderservice.controller;
 
-import com.quickorderservice.aop.auth.LoginCheck;
 import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.dto.member.MemberDTO;
 
@@ -45,9 +44,8 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteMember(String id, String password) {
-        memberService.deleteMember(id, password);
-        return RESPONSE_OK;
+    public void deleteMember(@MemberId String userId, String password) {
+        memberService.deleteMember(userId, password);
     }
 
     @PostMapping("/login")
