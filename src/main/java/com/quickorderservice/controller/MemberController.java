@@ -1,6 +1,5 @@
 package com.quickorderservice.controller;
 
-import com.quickorderservice.aop.auth.LoginCheck;
 import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.dto.member.MemberDTO;
 
