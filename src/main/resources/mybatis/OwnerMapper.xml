@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.quickorderservice.mapper.OwnerMapper">
+
+    <insert id="insertOwner">
+        insert into owners (ownerId,password,name,tel,email)
+        values (#{ownerId},#{password},#{name},#{tel},#{email})
+    </insert>
+
+    <select id="selectAllOwners" resultType="com.quickorderservice.dto.owner.OwnerDTO">
+        SELECT uid, ownerId, password, name, tel, email
+        FROM owners
+    </select>
+
+    <select id="selectOwnerById" resultType="com.quickorderservice.dto.owner.OwnerDTO">
+        select uid, ownerId, password, name, tel, email
+        from owners
+        where ownerId = #{ownerId}
+    </select>
+
+    <select id="selectOwnerByIdAndPassword" resultType="com.quickorderservice.dto.owner.OwnerDTO">
+        select uid, ownerId, password, name, tel, email
+        from owners
+        where ownerId = #{ownerId}
+        and password = #{password}
+    </select>
+
+</mapper>
