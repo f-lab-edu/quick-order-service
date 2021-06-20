@@ -1,6 +1,5 @@
 package com.quickorderservice.dto.owner;
 
-import com.quickorderservice.dto.member.MemberDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,5 +30,9 @@ public class OwnerDTO {
     @Override
     public boolean equals(Object obj) {
         return ((OwnerDTO) obj).getOwnerId().equals(this.getOwnerId());
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

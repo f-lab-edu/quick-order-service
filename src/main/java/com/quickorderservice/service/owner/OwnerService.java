@@ -4,6 +4,7 @@ import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.exception.DuplicatedIdException;
 import com.quickorderservice.exception.owner.NotFoundOwnerException;
 import com.quickorderservice.mapper.OwnerMapper;
+import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class OwnerService {
     public void joinOwner(OwnerDTO ownerDTO) {
         if (isExistOwner(ownerDTO.getOwnerId()))
             throw new DuplicatedIdException();
+
+        ownerDTO.setPassword(SHA256.encBySha256(ownerDTO.getPassword()));
 
         ownerMapper.insertOwner(ownerDTO);
     }
