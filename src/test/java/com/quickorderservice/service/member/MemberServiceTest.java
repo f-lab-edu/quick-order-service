@@ -1,8 +1,8 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.EditMemberException;
 import com.quickorderservice.exception.member.NotFoundMemberException;
+import com.quickorderservice.exception.member.EditMemberException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired MemberService memberService;
-    @Autowired MemberLoginService loginService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    MemberLoginService loginService;
 
     @Test
     @DisplayName("memberService 의존 관계 주입 확인")
@@ -59,8 +61,20 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("회원 삭제")
+    @DisplayName("정상적인 회원 삭제시 1을 반환한다.")
     void deleteMember() {
+        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
+                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+
+        memberService.joinMember(member);
+
+        int result = memberService.deleteMember(member.getUserId(), "1234");
+        Assertions.assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("회원 삭제시 비밀번호를 잘못 입력하면 NotFoundMemberException이 발생한다.")
+    void deleteMemberWithWrongPassword() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
@@ -68,12 +82,6 @@ class MemberServiceTest {
 
         assertThrows(NotFoundMemberException.class, () -> {
             memberService.deleteMember(member.getUserId(), "11");
-        });
-
-        int result = memberService.deleteMember(member.getUserId(), "1234");
-        Assertions.assertThat(result).isEqualTo(1);
-        assertThrows(IllegalStateException.class, () -> {
-            MemberDTO findMember = memberService.findMemberById(member.getUserId());
         });
     }
 
@@ -116,7 +124,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(NotFoundMemberException.class, () -> {
-            memberService.editMemberPassword(member.getUserId(),oldPassword + 1, newPassword);
+            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
         });
     }
 
@@ -132,7 +140,7 @@ class MemberServiceTest {
         loginService.login(member.getUserId(), oldPassword);
 
         assertThrows(EditMemberException.class, () -> {
-            memberService.editMemberPassword(member.getUserId(),oldPassword, newPassword);
+            memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
         });
     }
 }
