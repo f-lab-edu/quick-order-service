@@ -2,7 +2,7 @@ package com.quickorderservice.service.owner;
 
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.exception.DuplicatedIdException;
-import com.quickorderservice.exception.owner.NotFoundOwnerException;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.OwnerMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class OwnerService {
         OwnerDTO findOwner = ownerMapper.selectOwnerById(ownerId);
 
         if (findOwner == null)
-            throw new NotFoundOwnerException("존재하지 않는 회원 입니다.");
+            throw new NotFoundIdException("존재하지 않는 회원 입니다.");
 
         return findOwner;
     }

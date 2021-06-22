@@ -2,7 +2,7 @@ package com.quickorderservice.service.owner;
 
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.exception.DuplicatedIdException;
-import com.quickorderservice.exception.owner.NotFoundOwnerException;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.OwnerMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -73,7 +73,7 @@ class OwnerServiceTest {
     public void findOwnerByIdWithNotExist() {
         when(ownerMapper.selectOwnerById("test")).thenReturn(null);
 
-        Assertions.assertThrows(NotFoundOwnerException.class, () -> {
+        Assertions.assertThrows(NotFoundIdException.class, () -> {
             OwnerDTO findOwner = ownerService.findOwnerById("test");
         });
 

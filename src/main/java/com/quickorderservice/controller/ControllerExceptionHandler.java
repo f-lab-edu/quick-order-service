@@ -1,6 +1,7 @@
 package com.quickorderservice.controller;
 
 import com.quickorderservice.exception.DuplicatedIdException;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.exception.auth.NeedLoginException;
 import com.quickorderservice.exception.member.EditMemberException;
 import com.quickorderservice.exception.member.NotFoundMemberException;
@@ -28,6 +29,11 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity needLoginExceptionHandler(NeedLoginException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity notFoundIdExceptionHandler(NotFoundIdException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
