@@ -1,7 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.NotFoundMemberException;
+import com.quickorderservice.exception.NotFoundIdException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,12 +44,12 @@ class MemberLoginServiceTest {
     @Test
     @DisplayName("암호가 다르면 NotFoundMemberException 예외가 발생한다.")
     public void loginFailWithWrongPassword() {
-        assertThrows(NotFoundMemberException.class, () -> loginService.login(MEMBER_ID, MEMBER_WRONG_PASSWORD));
+        assertThrows(NotFoundIdException.class, () -> loginService.login(MEMBER_ID, MEMBER_WRONG_PASSWORD));
     }
 
     @Test
     @DisplayName("존재하지 않은 아이디로 로그인시도하면 NotFoundMemberException 예외가 발생한다.")
     public void loginFailWithNoMember() {
-        assertThrows(NotFoundMemberException.class, () -> loginService.login(MEMBER_WRONG_ID, MEMBER_WRONG_PASSWORD));
+        assertThrows(NotFoundIdException.class, () -> loginService.login(MEMBER_WRONG_ID, MEMBER_WRONG_PASSWORD));
     }
 }

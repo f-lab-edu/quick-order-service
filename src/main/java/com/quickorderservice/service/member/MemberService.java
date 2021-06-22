@@ -1,8 +1,8 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.EditMemberException;
-import com.quickorderservice.exception.member.NotFoundMemberException;
+import com.quickorderservice.exception.EditException;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class MemberService {
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getUserId()))
-            throw new IllegalStateException("join member error");
+            throw new NotFoundIdException();
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
 
@@ -31,7 +31,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberById(userId);
 
         if (findMember == null)
-            throw new NotFoundMemberException();
+            throw new NotFoundIdException();
 
         return findMember;
     }
@@ -39,7 +39,7 @@ public class MemberService {
     public void editMemberInfo(MemberDTO editedMemberDTO) {
         int updatedCount = memberMapper.updateMember(editedMemberDTO);
         if (updatedCount != 1)
-            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
+            throw new EditException("정상적으로 수정이 되지 않았습니다.");
     }
 
     public void editMemberPassword(String userId, String oldPassword, String newPassword) {
@@ -47,13 +47,13 @@ public class MemberService {
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
-            throw new EditMemberException("기존의 비밀번호와 같습니다.");
+            throw new EditException("기존의 비밀번호와 같습니다.");
 
         member.setPassword(newEncryptPassword);
 
         int updatedCount = memberMapper.updateMemberPassword(member);
         if (updatedCount != 1)
-            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
+            throw new EditException("정상적으로 수정이 되지 않았습니다.");
     }
 
     public int deleteMember(String userId, String password) {
@@ -73,7 +73,7 @@ public class MemberService {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
 
         if (member == null)
-            throw new NotFoundMemberException();
+            throw new NotFoundIdException("아이디 혹은 비밀번호가 잘못되었습니다.");
 
         return member;
     }
