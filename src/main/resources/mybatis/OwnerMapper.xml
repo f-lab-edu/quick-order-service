@@ -5,8 +5,8 @@
 <mapper namespace="com.quickorderservice.mapper.OwnerMapper">
 
     <insert id="insertOwner">
-        insert into owners (ownerId,password,name,tel,email)
-        values (#{ownerId},#{password},#{name},#{tel},#{email})
+        INSERT INTO owners (ownerId,password,name,tel,email)
+        VALUES (#{ownerId},#{password},#{name},#{tel},#{email})
     </insert>
 
     <select id="selectAllOwners" resultType="com.quickorderservice.dto.owner.OwnerDTO">
@@ -15,16 +15,16 @@
     </select>
 
     <select id="selectOwnerById" resultType="com.quickorderservice.dto.owner.OwnerDTO">
-        select uid, ownerId, password, name, tel, email
-        from owners
-        where ownerId = #{ownerId}
+        SELECT uid, ownerId, password, name, tel, email
+        FROM owners
+        WHERE ownerId = #{ownerId}
     </select>
 
     <select id="selectOwnerByIdAndPassword" resultType="com.quickorderservice.dto.owner.OwnerDTO">
-        select uid, ownerId, password, name, tel, email
-        from owners
-        where ownerId = #{ownerId}
-        and password = #{password}
+        SELECT uid, ownerId, password, name, tel, email
+        FROM owners
+        WHERE ownerId = #{ownerId}
+        AND password = #{password}
     </select>
 
 </mapper>
