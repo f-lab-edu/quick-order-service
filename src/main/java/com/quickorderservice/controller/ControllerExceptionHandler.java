@@ -19,7 +19,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity duplicatedIdExceptionHandler(DuplicatedIdException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler
@@ -29,11 +29,25 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity needLoginExceptionHandler(NeedLoginException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler
     public ResponseEntity notFoundIdExceptionHandler(NotFoundIdException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
+
+    private class ErrorMessage {
+
+        private String message;
+
+        public ErrorMessage(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
 }
