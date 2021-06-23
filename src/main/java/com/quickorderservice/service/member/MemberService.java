@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.DuplicatedIdException;
 import com.quickorderservice.exception.EditException;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MemberMapper;
@@ -20,7 +21,7 @@ public class MemberService {
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getUserId()))
-            throw new NotFoundIdException();
+            throw new DuplicatedIdException("이미 존재하는 아이디 입니다.");
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
 
@@ -31,7 +32,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberById(userId);
 
         if (findMember == null)
-            throw new NotFoundIdException();
+            throw new NotFoundIdException("존재하지 않는 아이디 입니다.");
 
         return findMember;
     }
