@@ -1,9 +1,7 @@
 package com.quickorderservice.service.member;
 
-import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.NotFoundMemberException;
+import com.quickorderservice.repository.RedisRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -12,21 +10,20 @@ import javax.servlet.http.HttpSession;
 @AllArgsConstructor
 public class MemberLoginService {
 
-    private final String MEMBER_ID = "MemberId";
     private final MemberService memberService;
     private final HttpSession httpSession;
+    private final RedisRepository redisRepository;
 
     public void login(String userId, String password) {
-        MemberDTO loginMember = memberService.findMemberByIdAndPassword(userId, password);
-        httpSession.setAttribute(MEMBER_ID, userId);
+        memberService.findMemberByIdAndPassword(userId, password);
+        redisRepository.set(httpSession.getId(), userId);
     }
 
     public void logout() {
-        httpSession.removeAttribute(MEMBER_ID);
+        redisRepository.remove(httpSession.getId());
     }
 
     public String getLoginMemberId() {
-        String userId = (String) httpSession.getAttribute(MEMBER_ID);
-        return (String) httpSession.getAttribute(MEMBER_ID);
+        return redisRepository.get(httpSession.getId());
     }
 }
