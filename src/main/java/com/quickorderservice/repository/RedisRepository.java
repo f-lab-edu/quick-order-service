@@ -11,12 +11,12 @@ public class RedisRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public String get(String key) {
+    public Object get(String key) {
         ValueOperations<String, Object> vop = redisTemplate.opsForValue();
-        return (String) vop.get(key);
+        return vop.get(key);
     }
 
-    public void set(String key, String value) {
+    public void set(String key, Object value) {
         ValueOperations<String, Object> vop = redisTemplate.opsForValue();
         vop.set(key, value);
     }

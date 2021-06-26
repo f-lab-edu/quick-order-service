@@ -21,7 +21,7 @@ class RedisRepositoryTest {
         String key = "key";
         String value = "value";
         redisRepository.set(key, value);
-        String redisValue = redisRepository.get(key);
+        String redisValue = (String) redisRepository.get(key);
 
         Assertions.assertThat(value).isEqualTo(redisValue);
     }
@@ -33,7 +33,7 @@ class RedisRepositoryTest {
         String value = "value";
         redisRepository.set(key, value);
         redisRepository.remove(key);
-        String redisValue = redisRepository.get(key);
+        String redisValue = (String) redisRepository.get(key);
 
         Assertions.assertThat(redisValue).isNull();
     }
@@ -42,7 +42,7 @@ class RedisRepositoryTest {
     @DisplayName("redis에 없는 값을 get을 하면 null을 반환한다.")
     public void set2() {
         String key = "key";
-        String redisValue = redisRepository.get(key);
+        String redisValue = (String) redisRepository.get(key);
 
         Assertions.assertThat(redisValue).isNull();
     }
