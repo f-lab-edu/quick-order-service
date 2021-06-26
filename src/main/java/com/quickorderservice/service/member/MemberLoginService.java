@@ -1,9 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.NotFoundMemberException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
