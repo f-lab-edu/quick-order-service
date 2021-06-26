@@ -34,10 +34,6 @@ public class OwnerService {
         return findOwner;
     }
 
-    public List<OwnerDTO> findAllOwners() {
-        return ownerMapper.selectAllOwners();
-    }
-
     private boolean isExistOwner(String ownerId) {
         return ownerMapper.selectOwnerById(ownerId) != null;
     }
