@@ -1,6 +1,7 @@
 package com.quickorderservice.controller;
 
 import com.quickorderservice.dto.owner.OwnerDTO;
+import com.quickorderservice.service.owner.OwnerLoginService;
 import com.quickorderservice.service.owner.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,20 @@ import org.springframework.web.bind.annotation.*;
 public class OwnerController {
 
     private final OwnerService ownerService;
+    private final OwnerLoginService loginService;
 
     @PostMapping
     public void joinOwner(@RequestBody OwnerDTO ownerDTO) {
         ownerService.joinOwner(ownerDTO);
     }
 
-    @GetMapping("/{ownerId}")
-    public void findOwnerById(@PathVariable String ownerId) {
-        ownerService.findOwnerById(ownerId);
+    @PostMapping("/login")
+    public void ownerLogin(String ownerId, String password) {
+        loginService.login(ownerId, password);
+    }
+
+    @PostMapping("/logout")
+    public void logout() {
+        loginService.logout();
     }
 }
