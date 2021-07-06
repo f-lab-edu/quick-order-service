@@ -24,11 +24,11 @@ public class OwnerIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String ownerId = loginService.getLoginOwnerId();
+        Long ownerUid = loginService.getLoginOwnerUid();
 
-        if (ownerId == null)
+        if (ownerUid == null)
             throw new NeedLoginException("로그인이 필요합니다.");
 
-        return ownerId;
+        return ownerUid;
     }
 }

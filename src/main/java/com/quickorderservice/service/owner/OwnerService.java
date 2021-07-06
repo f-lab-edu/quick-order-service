@@ -32,6 +32,15 @@ public class OwnerService {
         return findOwner;
     }
 
+    public OwnerDTO findOwnerByUid(Long uid) {
+        OwnerDTO findOwner = ownerMapper.selectOwnerByUid(uid);
+
+        if (findOwner == null)
+            throw new NotFoundIdException("존재하지 않는 회원 입니다.");
+
+        return findOwner;
+    }
+
     public OwnerDTO findOwnerByIdAndPassword(String ownerId, String password) {
         OwnerDTO owner = ownerMapper.selectOwnerByIdAndPassword(ownerId, SHA256.encBySha256(password));
 

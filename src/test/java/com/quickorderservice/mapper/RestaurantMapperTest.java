@@ -3,6 +3,7 @@ package com.quickorderservice.mapper;
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.exception.NotFoundIdException;
+import com.quickorderservice.exception.auth.NeedLoginException;
 import com.quickorderservice.service.owner.OwnerLoginService;
 import com.quickorderservice.service.owner.OwnerService;
 import org.assertj.core.api.Assertions;
@@ -33,7 +34,7 @@ class RestaurantMapperTest {
         ownerService.joinOwner(owner);
         ownerLoginService.login(owner.getOwnerId(), "1234");
 
-        OwnerDTO findOwner = ownerService.findOwnerById(ownerLoginService.getLoginOwnerId());
+        OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginOwnerUid());
 
         RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
                 LocalDateTime.now(), LocalDateTime.now());
@@ -50,8 +51,8 @@ class RestaurantMapperTest {
         OwnerDTO owner = new OwnerDTO(null, "testID", "1234", "test", "0000", "test@test.com", LocalDateTime.now(), LocalDateTime.now());
         ownerService.joinOwner(owner);
 
-        org.junit.jupiter.api.Assertions.assertThrows(NotFoundIdException.class, () -> {
-            OwnerDTO findOwner = ownerService.findOwnerById(ownerLoginService.getLoginOwnerId());
+        org.junit.jupiter.api.Assertions.assertThrows(NeedLoginException.class, () -> {
+            OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginOwnerUid());
 
             RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
                     LocalDateTime.now(), LocalDateTime.now());

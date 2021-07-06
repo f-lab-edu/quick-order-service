@@ -18,13 +18,13 @@ public class RestaurantController {
     private final OwnerService ownerService;
 
     @PostMapping
-    public void registerRestaurant(@OwnerId String ownerId, @RequestBody RestaurantDTO restaurant) {
+    public void registerRestaurant(@OwnerId Long ownerUid, @RequestBody RestaurantDTO restaurant) {
         System.out.println(restaurant);
-        restaurantService.registerRestaurant(ownerId, restaurant);
+        restaurantService.registerRestaurant(ownerUid, restaurant);
     }
 
     @GetMapping
-    public List<RestaurantDTO> getRestaurantsByOwnerId(@OwnerId String ownerId) {
-        return restaurantService.getRestaurantsByOwnerId(ownerId);
+    public List<RestaurantDTO> getRestaurantsByOwnerId(@OwnerId Long ownerUid) {
+        return restaurantService.getRestaurantsByOwnerId(ownerUid);
     }
 }
