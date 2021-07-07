@@ -2,6 +2,7 @@ package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
 import com.quickorderservice.exception.auth.NeedLoginException;
+import com.quickorderservice.exception.member.NotFoundMemberException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class MemberLoginService {
 
     public void login(String memberId, String password) {
         MemberDTO member = memberService.findMemberByIdAndPassword(memberId, password);
+
+        if(member==null)
+            throw new NotFoundMemberException("아이디 혹은 패스워드가 잘 못 되었습니다.");
+
         httpSession.setAttribute(MEMBER_UID, member.getUid());
     }
 

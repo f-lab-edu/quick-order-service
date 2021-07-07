@@ -55,6 +55,9 @@ public class MemberService {
         String memberId = findMemberByUid(memberUid).getMemberId();
         MemberDTO member = findMemberByIdAndPassword(memberId, oldPassword);
 
+        if (member == null)
+            throw new NotFoundMemberException("비밀번호가 틀렸습니다.");
+
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new EditMemberException("기존의 비밀번호와 같습니다.");
@@ -69,6 +72,10 @@ public class MemberService {
     public int deleteMember(Long memberUid, String password) {
         String memberId = findMemberByUid(memberUid).getMemberId();
         MemberDTO member = findMemberByIdAndPassword(memberId, password);
+
+        if (member == null)
+            throw new NotFoundMemberException("비밀번호가 틀렸습니다.");
+
         return memberMapper.deleteMember(memberUid);
     }
 
@@ -82,10 +89,6 @@ public class MemberService {
 
     public MemberDTO findMemberByIdAndPassword(String memberId, String password) {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(memberId, SHA256.encBySha256(password));
-
-        if (member == null)
-            throw new NotFoundMemberException();
-
         return member;
     }
 
