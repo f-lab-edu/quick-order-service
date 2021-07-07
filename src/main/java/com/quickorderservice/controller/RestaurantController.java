@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping("/restaurants")
 @AllArgsConstructor
 public class RestaurantController {
 
@@ -18,13 +18,13 @@ public class RestaurantController {
     private final OwnerService ownerService;
 
     @PostMapping
-    public void registerRestaurant(@OwnerId Long ownerUid, @RequestBody RestaurantDTO restaurant) {
+    public void registerRestaurant(@OwnerId long ownerUid, @RequestBody RestaurantDTO restaurant) {
         System.out.println(restaurant);
         restaurantService.registerRestaurant(ownerUid, restaurant);
     }
 
     @GetMapping
-    public List<RestaurantDTO> getRestaurantsByOwnerId(@OwnerId Long ownerUid) {
+    public List<RestaurantDTO> getRestaurantsByOwnerUid(@OwnerId long ownerUid) {
         return restaurantService.getRestaurantsByOwnerId(ownerUid);
     }
 }
