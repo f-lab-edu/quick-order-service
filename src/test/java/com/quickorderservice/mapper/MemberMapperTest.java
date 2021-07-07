@@ -33,7 +33,7 @@ class MemberMapperTest {
         int result = memberMapper.insertMember(memberDTO);
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getUserId());
+        MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getMemberId());
         Assertions.assertThat(memberDTO).isEqualTo(findMember);
 
     }
@@ -49,7 +49,7 @@ class MemberMapperTest {
         int result = memberMapper.insertMember(memberDTO);
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember = memberMapper.selectMemberByIdAndPassword(memberDTO.getUserId(), memberDTO.getPassword());
+        MemberDTO findMember = memberMapper.selectMemberByIdAndPassword(memberDTO.getMemberId(), memberDTO.getPassword());
         Assertions.assertThat(memberDTO).isEqualTo(findMember);
 
     }
@@ -63,7 +63,7 @@ class MemberMapperTest {
 
         memberMapper.insertMember(memberDTO);
 
-        MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getUserId());
+        MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getMemberId());
         int result = memberMapper.deleteMember(findMember.getUid());
         Assertions.assertThat(result).isEqualTo(1);
     }
@@ -98,7 +98,7 @@ class MemberMapperTest {
 
         memberMapper.insertMember(memberDTO1);
 
-        MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getMemberId());
 
         MemberDTO memberDTO2 = new MemberDTO(
                 findMember.getUid(), "edit", "4567", "newName",
@@ -109,7 +109,7 @@ class MemberMapperTest {
 
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getMemberId());
 
         Assertions.assertThat(findMember2.getName()).isEqualTo("newName");
     }
@@ -124,13 +124,13 @@ class MemberMapperTest {
         memberMapper.insertMember(memberDTO1);
 
         String newPassword = "9876";
-        MemberDTO findMember1 = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember1 = memberMapper.selectMemberById(memberDTO1.getMemberId());
         findMember1.setPassword(newPassword);
         int result = memberMapper.updateMemberPassword(findMember1);
 
         Assertions.assertThat(result).isEqualTo(1);
 
-        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getUserId());
+        MemberDTO findMember2 = memberMapper.selectMemberById(memberDTO1.getMemberId());
 
         Assertions.assertThat(findMember2.getPassword()).isEqualTo(newPassword);
     }

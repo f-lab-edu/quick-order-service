@@ -19,7 +19,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public int joinMember(MemberDTO memberDTO) {
-        if (isExistMember(memberDTO.getUserId()))
+        if (isExistMember(memberDTO.getMemberId()))
             throw new IllegalStateException("join member error");
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
@@ -27,8 +27,17 @@ public class MemberService {
         return memberMapper.insertMember(memberDTO);
     }
 
-    public MemberDTO findMemberById(String userId) {
-        MemberDTO findMember = memberMapper.selectMemberById(userId);
+    public MemberDTO findMemberById(String memberId) {
+        MemberDTO findMember = memberMapper.selectMemberById(memberId);
+
+        if (findMember == null)
+            throw new NotFoundMemberException();
+
+        return findMember;
+    }
+
+    public MemberDTO findMemberByUid(Long uid) {
+        MemberDTO findMember = memberMapper.selectMemberByUid(uid);
 
         if (findMember == null)
             throw new NotFoundMemberException();
@@ -42,8 +51,9 @@ public class MemberService {
             throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
     }
 
-    public void editMemberPassword(String userId, String oldPassword, String newPassword) {
-        MemberDTO member = findMemberByIdAndPassword(userId, oldPassword);
+    public void editMemberPassword(Long memberUid, String oldPassword, String newPassword) {
+        String memberId = findMemberByUid(memberUid).getMemberId();
+        MemberDTO member = findMemberByIdAndPassword(memberId, oldPassword);
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
@@ -56,21 +66,22 @@ public class MemberService {
             throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
     }
 
-    public int deleteMember(String userId, String password) {
-        MemberDTO member = findMemberByIdAndPassword(userId, password);
-        return memberMapper.deleteMember(member.getUid());
+    public int deleteMember(Long memberUid, String password) {
+        String memberId = findMemberByUid(memberUid).getMemberId();
+        MemberDTO member = findMemberByIdAndPassword(memberId, password);
+        return memberMapper.deleteMember(memberUid);
     }
 
     public List<MemberDTO> findAllMembers() {
         return memberMapper.selectAllMembers();
     }
 
-    private boolean isExistMember(String userId) {
-        return memberMapper.selectMemberById(userId) != null;
+    private boolean isExistMember(String memberId) {
+        return memberMapper.selectMemberById(memberId) != null;
     }
 
-    public MemberDTO findMemberByIdAndPassword(String userId, String password) {
-        MemberDTO member = memberMapper.selectMemberByIdAndPassword(userId, SHA256.encBySha256(password));
+    public MemberDTO findMemberByIdAndPassword(String memberId, String password) {
+        MemberDTO member = memberMapper.selectMemberByIdAndPassword(memberId, SHA256.encBySha256(password));
 
         if (member == null)
             throw new NotFoundMemberException();

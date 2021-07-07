@@ -47,7 +47,7 @@ class MemberServiceTest {
 
         memberService.joinMember(member);
 
-        MemberDTO findMember = memberService.findMemberById(member.getUserId());
+        MemberDTO findMember = memberService.findMemberById(member.getMemberId());
 
         Assertions.assertThat(member).isEqualTo(findMember);
     }
@@ -67,8 +67,9 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
+        loginService.login(member.getMemberId(), "1234");
 
-        int result = memberService.deleteMember(member.getUserId(), "1234");
+        int result = memberService.deleteMember(loginService.getLoginMemberUid(), "1234");
         Assertions.assertThat(result).isEqualTo(1);
     }
 
@@ -81,7 +82,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
 
         assertThrows(NotFoundMemberException.class, () -> {
-            memberService.deleteMember(member.getUserId(), "11");
+            memberService.deleteMember(member.getUid(), "11");
         });
     }
 
@@ -92,8 +93,8 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
-        loginService.login(member.getUserId(), "1234");
-        MemberDTO findMember = memberService.findMemberById(member.getUserId());
+        loginService.login(member.getMemberId(), "1234");
+        MemberDTO findMember = memberService.findMemberById(member.getMemberId());
 
         memberService.editMemberInfo(findMember);
     }
@@ -107,9 +108,9 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
-        loginService.login(member.getUserId(), oldPassword);
+        loginService.login(member.getMemberId(), oldPassword);
 
-        memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
+        memberService.editMemberPassword(loginService.getLoginMemberUid(), oldPassword, newPassword);
     }
 
     @Test
@@ -121,10 +122,10 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
-        loginService.login(member.getUserId(), oldPassword);
+        loginService.login(member.getMemberId(), oldPassword);
 
         assertThrows(NotFoundMemberException.class, () -> {
-            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
+            memberService.editMemberPassword(member.getUid(), oldPassword + 1, newPassword);
         });
     }
 
@@ -137,10 +138,10 @@ class MemberServiceTest {
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
-        loginService.login(member.getUserId(), oldPassword);
+        loginService.login(member.getMemberId(), oldPassword);
 
         assertThrows(EditMemberException.class, () -> {
-            memberService.editMemberPassword(member.getUserId(), oldPassword, newPassword);
+            memberService.editMemberPassword(member.getUid(), oldPassword, newPassword);
         });
     }
 }
