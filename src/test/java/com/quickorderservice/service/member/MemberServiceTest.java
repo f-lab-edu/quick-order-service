@@ -1,8 +1,8 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.NotFoundMemberException;
-import com.quickorderservice.exception.member.EditMemberException;
+import com.quickorderservice.exception.EditException;
+import com.quickorderservice.exception.NotFoundIdException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("없는 회원 조회")
     void findMemberByIdWithNoMember() {
-        assertThrows(NotFoundMemberException.class, () -> {
+        assertThrows(NotFoundIdException.class, () -> {
             MemberDTO findMember = memberService.findMemberById("noMember");
         });
     }
@@ -74,15 +74,15 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("회원 삭제시 비밀번호를 잘못 입력하면 NotFoundMemberException이 발생한다.")
+    @DisplayName("회원 삭제시 비밀번호를 잘못 입력하면 NotFoundIdException 발생한다.")
     void deleteMemberWithWrongPassword() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
-        assertThrows(NotFoundMemberException.class, () -> {
-            memberService.deleteMember(member.getUid(), "11");
+        assertThrows(NotFoundIdException.class, () -> {
+            memberService.deleteMember(member.getUserId(), "11");
         });
     }
 
@@ -114,7 +114,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("비밀번호 수정 시 기존의 비밀번호를 잘못입력하면 NotFoundMemberException 발생한다.")
+    @DisplayName("비밀번호 수정 시 기존의 비밀번호를 잘못입력하면 NotFoundIdException 발생한다.")
     void editMemberPasswordWithWrongPassword() {
         String oldPassword = "1234";
         String newPassword = "7890";
@@ -124,13 +124,13 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
 
-        assertThrows(NotFoundMemberException.class, () -> {
-            memberService.editMemberPassword(member.getUid(), oldPassword + 1, newPassword);
+        assertThrows(NotFoundIdException.class, () -> {
+            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
         });
     }
 
     @Test
-    @DisplayName("비밀번호 수정 시 기존의 비밀번호와 같으면 EditMemberException이 발생한다.")
+    @DisplayName("비밀번호 수정 시 기존의 비밀번호와 같으면 EditException 발생한다.")
     void editMemberPasswordWithSamePassword() {
         String oldPassword = "1234";
         String newPassword = "1234";

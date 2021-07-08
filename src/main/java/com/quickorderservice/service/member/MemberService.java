@@ -1,8 +1,9 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
-import com.quickorderservice.exception.member.EditMemberException;
-import com.quickorderservice.exception.member.NotFoundMemberException;
+import com.quickorderservice.exception.DuplicatedIdException;
+import com.quickorderservice.exception.EditException;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,8 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public int joinMember(MemberDTO memberDTO) {
-        if (isExistMember(memberDTO.getMemberId()))
-            throw new IllegalStateException("join member error");
+        if (isExistMember(memberDTO.getUserId()))
+            throw new DuplicatedIdException("이미 존재하는 아이디 입니다.");
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
 
@@ -40,7 +41,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberByUid(uid);
 
         if (findMember == null)
-            throw new NotFoundMemberException();
+            throw new NotFoundIdException("존재하지 않는 아이디 입니다.");
 
         return findMember;
     }
@@ -48,7 +49,7 @@ public class MemberService {
     public void editMemberInfo(MemberDTO editedMemberDTO) {
         int updatedCount = memberMapper.updateMember(editedMemberDTO);
         if (updatedCount != 1)
-            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
+            throw new EditException("정상적으로 수정이 되지 않았습니다.");
     }
 
     public void editMemberPassword(Long memberUid, String oldPassword, String newPassword) {
@@ -60,13 +61,13 @@ public class MemberService {
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
-            throw new EditMemberException("기존의 비밀번호와 같습니다.");
+            throw new EditException("기존의 비밀번호와 같습니다.");
 
         member.setPassword(newEncryptPassword);
 
         int updatedCount = memberMapper.updateMemberPassword(member);
         if (updatedCount != 1)
-            throw new EditMemberException("정상적으로 수정이 되지 않았습니다.");
+            throw new EditException("정상적으로 수정이 되지 않았습니다.");
     }
 
     public int deleteMember(Long memberUid, String password) {
@@ -89,6 +90,10 @@ public class MemberService {
 
     public MemberDTO findMemberByIdAndPassword(String memberId, String password) {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(memberId, SHA256.encBySha256(password));
+
+        if (member == null)
+            throw new NotFoundIdException("아이디 혹은 비밀번호가 잘못되었습니다.");
+
         return member;
     }
 
