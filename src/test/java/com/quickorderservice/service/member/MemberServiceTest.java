@@ -69,7 +69,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), "1234");
 
-        int result = memberService.deleteMember(loginService.getLoginMemberUid(), "1234");
+        int result = memberService.deleteMember(loginService.getLoginUid(), "1234");
         Assertions.assertThat(result).isEqualTo(1);
     }
 
@@ -82,7 +82,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
 
         assertThrows(NotFoundIdException.class, () -> {
-            memberService.deleteMember(member.getUserId(), "11");
+            memberService.deleteMember(member.getUid(), "11");
         });
     }
 
@@ -110,7 +110,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
 
-        memberService.editMemberPassword(loginService.getLoginMemberUid(), oldPassword, newPassword);
+        memberService.editMemberPassword(loginService.getLoginUid(), oldPassword, newPassword);
     }
 
     @Test
@@ -125,7 +125,7 @@ class MemberServiceTest {
         loginService.login(member.getMemberId(), oldPassword);
 
         assertThrows(NotFoundIdException.class, () -> {
-            memberService.editMemberPassword(member.getUserId(), oldPassword + 1, newPassword);
+            memberService.editMemberPassword(member.getUid(), oldPassword + 1, newPassword);
         });
     }
 
@@ -140,7 +140,7 @@ class MemberServiceTest {
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
 
-        assertThrows(EditMemberException.class, () -> {
+        assertThrows(EditException.class, () -> {
             memberService.editMemberPassword(member.getUid(), oldPassword, newPassword);
         });
     }

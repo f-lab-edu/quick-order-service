@@ -1,9 +1,9 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.service.LoginService;
 import com.quickorderservice.exception.auth.NeedLoginException;
-import com.quickorderservice.exception.member.NotFoundIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

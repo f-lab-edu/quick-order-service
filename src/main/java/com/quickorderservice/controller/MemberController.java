@@ -50,7 +50,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public void login(String memberId, String password) {
-        loginService.login(memberId, password);
+        memberLoginService.login(memberId, password);
     }
 
     @PostMapping("/logout")

@@ -43,10 +43,6 @@ public class OwnerService {
 
     public OwnerDTO findOwnerByIdAndPassword(String ownerId, String password) {
         OwnerDTO owner = ownerMapper.selectOwnerByIdAndPassword(ownerId, SHA256.encBySha256(password));
-
-        if (owner == null)
-            throw new NotFoundIdException("아이디 혹은 비밀번호가 잘못되었습니다.");
-
         return owner;
     }
 
