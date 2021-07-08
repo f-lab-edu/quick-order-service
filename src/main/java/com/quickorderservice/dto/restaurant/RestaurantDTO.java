@@ -18,7 +18,4 @@ public class RestaurantDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
 }
