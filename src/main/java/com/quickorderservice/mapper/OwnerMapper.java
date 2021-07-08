@@ -16,4 +16,6 @@ public interface OwnerMapper {
     List<OwnerDTO> selectAllOwners();
 
     OwnerDTO selectOwnerByIdAndPassword(@Param("ownerId") String ownerId, @Param("password") String password);
+
+    OwnerDTO selectOwnerByUid(Long uid);
 }

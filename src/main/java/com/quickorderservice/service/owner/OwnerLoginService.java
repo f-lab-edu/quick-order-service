@@ -1,6 +1,7 @@
 package com.quickorderservice.service.owner;
 
 import com.quickorderservice.dto.owner.OwnerDTO;
+import com.quickorderservice.exception.auth.NeedLoginException;
 import com.quickorderservice.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,22 +12,26 @@ import javax.servlet.http.HttpSession;
 @AllArgsConstructor
 public class OwnerLoginService implements LoginService {
 
-    private final String OWNER_ID = "OwnerId";
+    private final String OWNER_UID = "OwnerUid";
     private final OwnerService ownerService;
     private final HttpSession httpSession;
 
     public void login(String id, String password) {
-        OwnerDTO loginMember = ownerService.findOwnerByIdAndPassword(id, password);
-        httpSession.setAttribute(OWNER_ID, id);
+        OwnerDTO loginOwner = ownerService.findOwnerByIdAndPassword(id, password);
+        httpSession.setAttribute(OWNER_UID, loginOwner.getUid());
     }
 
     public void logout() {
-        httpSession.removeAttribute(OWNER_ID);
+        httpSession.removeAttribute(OWNER_UID);
     }
 
-    public String getLoginId() {
-        String userId = (String) httpSession.getAttribute(OWNER_ID);
-        return (String) httpSession.getAttribute(OWNER_ID);
+    public Long getLoginOwnerUid() {
+        Long loginOwnerUid = (Long) httpSession.getAttribute(OWNER_UID);
+
+        if(loginOwnerUid == null)
+            throw new NeedLoginException("로그인이 필요합니다.");
+
+        return loginOwnerUid;
     }
 
 }

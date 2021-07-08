@@ -1,6 +1,5 @@
 package com.quickorderservice.service.owner;
 
-import com.quickorderservice.dto.member.MemberDTO;
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.exception.DuplicatedIdException;
 import com.quickorderservice.exception.NotFoundIdException;
@@ -8,8 +7,6 @@ import com.quickorderservice.mapper.OwnerMapper;
 import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +25,15 @@ public class OwnerService {
 
     public OwnerDTO findOwnerById(String ownerId) {
         OwnerDTO findOwner = ownerMapper.selectOwnerById(ownerId);
+
+        if (findOwner == null)
+            throw new NotFoundIdException("존재하지 않는 회원 입니다.");
+
+        return findOwner;
+    }
+
+    public OwnerDTO findOwnerByUid(Long uid) {
+        OwnerDTO findOwner = ownerMapper.selectOwnerByUid(uid);
 
         if (findOwner == null)
             throw new NotFoundIdException("존재하지 않는 회원 입니다.");
