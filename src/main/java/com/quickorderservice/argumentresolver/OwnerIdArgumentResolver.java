@@ -2,7 +2,7 @@ package com.quickorderservice.argumentresolver;
 
 import com.quickorderservice.annotation.OwnerId;
 import com.quickorderservice.exception.auth.NeedLoginException;
-import com.quickorderservice.service.owner.OwnerLoginService;
+import com.quickorderservice.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @AllArgsConstructor
 public class OwnerIdArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final OwnerLoginService loginService;
+    private final LoginService ownerLoginService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -24,7 +24,7 @@ public class OwnerIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        Long ownerUid = loginService.getLoginOwnerUid();
+        Long ownerUid = ownerLoginService.getLoginUid();
 
         if (ownerUid == null)
             throw new NeedLoginException("로그인이 필요합니다.");

@@ -25,7 +25,7 @@ public class OwnerLoginService implements LoginService {
         httpSession.removeAttribute(OWNER_UID);
     }
 
-    public Long getLoginOwnerUid() {
+    public Long getLoginUid() {
         Long loginOwnerUid = (Long) httpSession.getAttribute(OWNER_UID);
 
         if(loginOwnerUid == null)

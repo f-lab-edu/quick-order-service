@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class OwnerController {
 
     private final OwnerService ownerService;
-    private final LoginService loginService;
+    private final LoginService ownerLoginService;
 
     @PostMapping
     public void joinOwner(@RequestBody OwnerDTO ownerDTO) {
@@ -21,11 +21,11 @@ public class OwnerController {
 
     @PostMapping("/login")
     public void ownerLogin(String ownerId, String password) {
-        loginService.login(ownerId, password);
+        ownerLoginService.login(ownerId, password);
     }
 
     @PostMapping("/logout")
     public void logout() {
-        loginService.logout();
+        ownerLoginService.logout();
     }
 }

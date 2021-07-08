@@ -38,7 +38,8 @@ class MemberLoginServiceTest {
     @DisplayName("정상적으로 로그인하면 loginService에서 로그인한 멤버의 ID를 반환가능하다.")
     public void loginSuccessCheckId() {
         loginService.login(MEMBER_ID, MEMBER_PASSWORD);
-        Assertions.assertThat(loginService.getLoginMemberId()).isEqualTo(MEMBER_ID);
+        MemberDTO member = memberService.findMemberById(MEMBER_ID);
+        Assertions.assertThat(loginService.getLoginUid()).isEqualTo(member.getUid());
     }
 
     @Test

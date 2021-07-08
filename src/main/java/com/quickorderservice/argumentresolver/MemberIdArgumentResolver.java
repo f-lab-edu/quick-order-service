@@ -2,7 +2,7 @@ package com.quickorderservice.argumentresolver;
 
 import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.exception.auth.NeedLoginException;
-import com.quickorderservice.service.member.MemberLoginService;
+import com.quickorderservice.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @AllArgsConstructor
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final MemberLoginService loginService;
+    private final LoginService memberLoginService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -24,11 +24,11 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String memberId = loginService.getLoginMemberId();
+        Long memberId = memberLoginService.getLoginUid();
 
         if (memberId == null)
             throw new NeedLoginException();
 
-        return loginService.getLoginMemberId();
+        return memberId;
     }
 }

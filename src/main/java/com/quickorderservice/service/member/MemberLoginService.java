@@ -1,6 +1,7 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 @Service
 @AllArgsConstructor
-public class MemberLoginService {
+public class MemberLoginService implements LoginService {
 
     private final String MEMBER_ID = "MemberId";
     private final MemberService memberService;
@@ -23,8 +24,8 @@ public class MemberLoginService {
         httpSession.removeAttribute(MEMBER_ID);
     }
 
-    public String getLoginMemberId() {
-        String userId = (String) httpSession.getAttribute(MEMBER_ID);
-        return (String) httpSession.getAttribute(MEMBER_ID);
+    public Long getLoginUid() {
+        Long userId = (Long) httpSession.getAttribute(MEMBER_ID);
+        return userId;
     }
 }

@@ -6,5 +6,5 @@ public interface LoginService {
 
     void logout();
 
-    String getLoginId();
+    Long getLoginUid();
 }
