@@ -14,7 +14,6 @@ public class RestaurantService {
     private final RestaurantMapper restaurantMapper;
 
     public void registerRestaurant(Long ownerUid, RestaurantDTO restaurant) {
-        restaurant.setOwnerId(ownerUid);
         restaurantMapper.insertRestaurant(ownerUid, restaurant);
     }
 
