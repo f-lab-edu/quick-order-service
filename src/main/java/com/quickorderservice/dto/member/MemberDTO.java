@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class MemberDTO {
 
     private Long uid;
-    private String userId;
+    private String memberId;
     private String password;
     private String name;
     private String tel;
@@ -26,7 +26,7 @@ public class MemberDTO {
 
     @Override
     public boolean equals(Object obj) {
-        return ((MemberDTO) obj).getUserId().equals(this.getUserId());
+        return ((MemberDTO) obj).getMemberId().equals(this.getMemberId());
     }
 
     public void setPassword(String password) {

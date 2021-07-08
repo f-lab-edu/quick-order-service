@@ -24,11 +24,11 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        Long memberId = memberLoginService.getLoginUid();
+        Long memberUid = loginService.getLoginMemberUid();
 
-        if (memberId == null)
+        if (memberUid == null)
             throw new NeedLoginException();
 
-        return memberId;
+        return memberUid;
     }
 }
