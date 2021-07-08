@@ -5,8 +5,8 @@
 <mapper namespace="com.quickorderservice.mapper.RestaurantMapper">
 
     <insert id="insertRestaurant">
-        INSERT INTO restaurants (uid,ownerId,name,tel)
-        VALUES (#{uid},#{ownerId},#{name},#{tel})
+        INSERT INTO restaurants (ownerId, name, tel)
+        VALUES (#{ownerId}, #{res.name}, #{res.tel})
     </insert>
 
     <select id="selectRestaurantsByOwnerId" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">

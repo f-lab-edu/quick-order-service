@@ -39,7 +39,7 @@ class RestaurantMapperTest {
         RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
                 LocalDateTime.now(), LocalDateTime.now());
 
-        restaurantMapper.insertRestaurant(restaurant);
+        restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
         List<RestaurantDTO> restaurants = restaurantMapper.selectRestaurantsByOwnerId(findOwner.getUid());
 
         Assertions.assertThat(restaurants.size()).isEqualTo(1);
@@ -57,7 +57,7 @@ class RestaurantMapperTest {
             RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
                     LocalDateTime.now(), LocalDateTime.now());
 
-            restaurantMapper.insertRestaurant(restaurant);
+            restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
         });
     }
 }
