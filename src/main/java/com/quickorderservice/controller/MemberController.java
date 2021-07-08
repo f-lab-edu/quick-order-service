@@ -34,23 +34,23 @@ public class MemberController {
     }
 
     @PatchMapping
-    public void editMemberInfo(@MemberId String userId, @RequestBody MemberDTO editedMember) {
+    public void editMemberInfo(@MemberId Long memberUid, @RequestBody MemberDTO editedMember) {
         memberService.editMemberInfo(editedMember);
     }
 
     @PatchMapping("/my-infos/password")
-    public void editMemberPassword(@MemberId String userId, String oldPassword, String newPassword) {
-        memberService.editMemberPassword(userId, oldPassword, newPassword);
+    public void editMemberPassword(@MemberId Long memberUid, String oldPassword, String newPassword) {
+        memberService.editMemberPassword(memberUid, oldPassword, newPassword);
     }
 
     @DeleteMapping
-    public void deleteMember(@MemberId String userId, String password) {
-        memberService.deleteMember(userId, password);
+    public void deleteMember(@MemberId Long memberUid, String password) {
+        memberService.deleteMember(memberUid, password);
     }
 
     @PostMapping("/login")
-    public void login(String userId, String password) {
-        loginService.login(userId, password);
+    public void login(String memberId, String password) {
+        loginService.login(memberId, password);
     }
 
     @PostMapping("/logout")
@@ -59,8 +59,7 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String getMember() {
-        return loginService.getLoginMemberId();
+    public MemberDTO getLogin(@MemberId Long memberUid) {
+        return memberService.findMemberByUid(memberUid);
     }
-
 }

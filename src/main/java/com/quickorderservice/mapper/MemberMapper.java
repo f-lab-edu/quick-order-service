@@ -13,7 +13,9 @@ public interface MemberMapper {
 
     int deleteMember(Long uid);
 
-    MemberDTO selectMemberById(String userId);
+    MemberDTO selectMemberById(String memberId);
+
+    MemberDTO selectMemberByUid(Long uid);
 
     int updateMember(MemberDTO memberDTO);
 
@@ -21,6 +23,6 @@ public interface MemberMapper {
 
     List<MemberDTO> selectAllMembers();
 
-    MemberDTO selectMemberByIdAndPassword(@Param("userid") String userId, @Param("password") String password);
+    MemberDTO selectMemberByIdAndPassword(@Param("memberId") String memberId, @Param("password") String password);
 
 }

@@ -5,26 +5,32 @@
 <mapper namespace="com.quickorderservice.mapper.MemberMapper">
 
     <select id="selectAllMembers" resultType="com.quickorderservice.dto.member.MemberDTO">
-        SELECT uid, userId, password, name, tel, email, address
+        SELECT uid, memberId, password, name, tel, email, address
         FROM members
     </select>
 
     <select id="selectMemberById" resultType="com.quickorderservice.dto.member.MemberDTO">
-        select uid, userId, password, name, tel, email, address
+        select uid, memberId, password, name, tel, email, address
         from members
-        where userid = #{userid}
+        where memberId = #{memberId}
+    </select>
+
+    <select id="selectMemberByUid" resultType="com.quickorderservice.dto.member.MemberDTO">
+        SELECT uid, memberId, password, name, tel, email, address
+        FROM members
+        WHERE uid = #{uid}
     </select>
 
     <select id="selectMemberByIdAndPassword" resultType="com.quickorderservice.dto.member.MemberDTO">
-        select uid, userId, password, name, tel, email, address
+        select uid, memberId, password, name, tel, email, address
         from members
-        where userid = #{userid}
+        where memberId = #{memberId}
         and password = #{password}
     </select>
 
     <insert id="insertMember">
-        insert into members (userId,password,name,tel,email,address)
-        values (#{userId},#{password},#{name},#{tel},#{email},#{address})
+        insert into members (memberId,password,name,tel,email,address)
+        values (#{memberId},#{password},#{name},#{tel},#{email},#{address})
     </insert>
 
     <delete id="deleteMember">
