@@ -5,7 +5,7 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
-import com.quickorderservice.service.member.MemberLoginService;
+import com.quickorderservice.service.LoginService;
 import com.quickorderservice.service.member.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberLoginService loginService;
+    private final LoginService memberLoginService;
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -50,12 +50,12 @@ public class MemberController {
 
     @PostMapping("/login")
     public void login(String memberId, String password) {
-        loginService.login(memberId, password);
+        memberLoginService.login(memberId, password);
     }
 
     @PostMapping("/logout")
     public void logout() {
-        loginService.logout();
+        memberLoginService.logout();
     }
 
     @GetMapping("/login")

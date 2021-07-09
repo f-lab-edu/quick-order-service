@@ -8,8 +8,6 @@ import com.quickorderservice.utiles.SHA256;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class OwnerService {
@@ -32,6 +30,20 @@ public class OwnerService {
             throw new NotFoundIdException("존재하지 않는 회원 입니다.");
 
         return findOwner;
+    }
+
+    public OwnerDTO findOwnerByUid(Long uid) {
+        OwnerDTO findOwner = ownerMapper.selectOwnerByUid(uid);
+
+        if (findOwner == null)
+            throw new NotFoundIdException("존재하지 않는 회원 입니다.");
+
+        return findOwner;
+    }
+
+    public OwnerDTO findOwnerByIdAndPassword(String ownerId, String password) {
+        OwnerDTO owner = ownerMapper.selectOwnerByIdAndPassword(ownerId, SHA256.encBySha256(password));
+        return owner;
     }
 
     private boolean isExistOwner(String ownerId) {

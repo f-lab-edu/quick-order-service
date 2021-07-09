@@ -1,8 +1,9 @@
 package com.quickorderservice.service.member;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.exception.NotFoundIdException;
+import com.quickorderservice.service.LoginService;
 import com.quickorderservice.exception.auth.NeedLoginException;
-import com.quickorderservice.exception.member.NotFoundMemberException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 @Service
 @AllArgsConstructor
-public class MemberLoginService {
+public class MemberLoginService implements LoginService {
 
     private final String MEMBER_UID = "memberUid";
     private final MemberService memberService;
@@ -20,7 +21,7 @@ public class MemberLoginService {
         MemberDTO member = memberService.findMemberByIdAndPassword(memberId, password);
 
         if(member==null)
-            throw new NotFoundMemberException("아이디 혹은 패스워드가 잘 못 되었습니다.");
+            throw new NotFoundIdException("아이디 혹은 패스워드가 잘 못 되었습니다.");
 
         httpSession.setAttribute(MEMBER_UID, member.getUid());
     }
@@ -29,7 +30,7 @@ public class MemberLoginService {
         httpSession.removeAttribute(MEMBER_UID);
     }
 
-    public Long getLoginMemberUid() {
+    public Long getLoginUid() {
         Long memberUid = (Long) httpSession.getAttribute(MEMBER_UID);
 
         if (memberUid == null)

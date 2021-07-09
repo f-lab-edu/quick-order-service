@@ -20,7 +20,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public int joinMember(MemberDTO memberDTO) {
-        if (isExistMember(memberDTO.getUserId()))
+        if (isExistMember(memberDTO.getMemberId()))
             throw new DuplicatedIdException("이미 존재하는 아이디 입니다.");
 
         memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
@@ -32,7 +32,7 @@ public class MemberService {
         MemberDTO findMember = memberMapper.selectMemberById(memberId);
 
         if (findMember == null)
-            throw new NotFoundMemberException();
+            throw new NotFoundIdException("존재하지 않는 아이디 입니다.");
 
         return findMember;
     }
@@ -57,7 +57,7 @@ public class MemberService {
         MemberDTO member = findMemberByIdAndPassword(memberId, oldPassword);
 
         if (member == null)
-            throw new NotFoundMemberException("비밀번호가 틀렸습니다.");
+            throw new NotFoundIdException("비밀번호가 틀렸습니다.");
 
         String newEncryptPassword = SHA256.encBySha256(newPassword);
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
@@ -75,7 +75,7 @@ public class MemberService {
         MemberDTO member = findMemberByIdAndPassword(memberId, password);
 
         if (member == null)
-            throw new NotFoundMemberException("비밀번호가 틀렸습니다.");
+            throw new NotFoundIdException("비밀번호가 틀렸습니다.");
 
         return memberMapper.deleteMember(memberUid);
     }
@@ -90,10 +90,6 @@ public class MemberService {
 
     public MemberDTO findMemberByIdAndPassword(String memberId, String password) {
         MemberDTO member = memberMapper.selectMemberByIdAndPassword(memberId, SHA256.encBySha256(password));
-
-        if (member == null)
-            throw new NotFoundIdException("아이디 혹은 비밀번호가 잘못되었습니다.");
-
         return member;
     }
 

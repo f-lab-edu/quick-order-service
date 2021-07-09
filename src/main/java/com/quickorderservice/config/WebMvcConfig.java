@@ -1,6 +1,7 @@
 package com.quickorderservice.config;
 
 import com.quickorderservice.argumentresolver.MemberIdArgumentResolver;
+import com.quickorderservice.argumentresolver.OwnerIdArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -12,11 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final MemberIdArgumentResolver argumentResolver;
+    private final MemberIdArgumentResolver memberIdArgumentResolver;
+    private final OwnerIdArgumentResolver ownerIdArgumentResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(argumentResolver);
+        resolvers.add(memberIdArgumentResolver);
+        resolvers.add(ownerIdArgumentResolver);
     }
 
 

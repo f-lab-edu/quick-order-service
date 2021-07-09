@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.quickorderservice.mapper.RestaurantMapper">
+
+    <insert id="insertRestaurant">
+        INSERT INTO restaurants (ownerId, name, tel)
+        VALUES (#{ownerId}, #{res.name}, #{res.tel})
+    </insert>
+
+    <select id="selectRestaurantsByOwnerId" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
+        SELECT *
+        FROM restaurants
+        WHERE ownerId = #{ownerId}
+    </select>
+
+</mapper>

@@ -27,4 +27,9 @@
         AND password = #{password}
     </select>
 
+    <select id="selectOwnerByUid" resultType="com.quickorderservice.dto.owner.OwnerDTO">
+        SELECT uid, ownerId, password, name, tel, email
+        FROM owners
+        WHERE uid = #{uid}
+    </select>
 </mapper>
