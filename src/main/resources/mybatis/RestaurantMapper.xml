@@ -5,14 +5,25 @@
 <mapper namespace="com.quickorderservice.mapper.RestaurantMapper">
 
     <insert id="insertRestaurant">
-        INSERT INTO restaurants (ownerId, name, tel)
-        VALUES (#{ownerId}, #{res.name}, #{res.tel})
+        INSERT INTO restaurants (ownerId, name, tel, category)
+        VALUES (#{ownerId}, #{res.name}, #{res.tel}, #{res.category})
     </insert>
 
     <select id="selectRestaurantsByOwnerId" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT *
         FROM restaurants
         WHERE ownerId = #{ownerId}
+    </select>
+
+    <select id="selectAllRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
+        SELECT *
+        FROM restaurants
+    </select>
+
+    <select id="selectRestaurantsByCategory" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
+        SELECT *
+        FROM restaurants
+        WHERE category = #{category}
     </select>
 
 </mapper>
