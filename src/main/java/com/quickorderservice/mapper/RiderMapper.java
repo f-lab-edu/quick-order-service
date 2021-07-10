@@ -7,9 +7,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface RiderMapper {
 
-    int insertRider(RiderDTO riderDTO);
+    int insertRider(@Param("rider") RiderDTO riderDTO, @Param("password") String password);
 
     RiderDTO selectRiderByIdAndPassword(@Param("riderId") String riderId, @Param("password") String password);
 
     RiderDTO selectRiderByRiderUid(Long uid);
+
+    RiderDTO selectRiderByRiderId(String riderId);
 }

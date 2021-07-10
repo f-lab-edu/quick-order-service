@@ -6,7 +6,7 @@
 
     <insert id="insertRider">
         INSERT INTO riders (riderId, password, name, tel, email)
-        VALUES (#{riderId}, #{password}, #{name}, #{tel}, #{email})
+        VALUES (#{rider.riderId}, #{password}, #{rider.name}, #{rider.tel}, #{rider.email})
     </insert>
 
     <select id="selectRiderByIdAndPassword" resultType="com.quickorderservice.dto.rider.RiderDTO">
@@ -20,6 +20,12 @@
         SELECT uid, riderId, password, name, tel, email
         FROM riders
         WHERE uid = #{uid}
+    </select>
+
+    <select id="selectRiderByRiderId" resultType="com.quickorderservice.dto.rider.RiderDTO">
+        SELECT uid, riderId, password, name, tel, email
+        FROM riders
+        WHERE riderId = #{riderId}
     </select>
 
 </mapper>
