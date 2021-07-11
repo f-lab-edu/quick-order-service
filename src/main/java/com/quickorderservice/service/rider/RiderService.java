@@ -21,7 +21,7 @@ public class RiderService {
         int result = riderMapper.insertRider(riderDTO, SHA256.encBySha256(riderDTO.getPassword()));
 
         if (result != 1)
-            throw new FailMapperException("회원 가입 실패");
+            throw new FailMapperException("회원 가입이 실패하였습니다.");
     }
 
     public RiderDTO findRiderByUid(Long uid) {
