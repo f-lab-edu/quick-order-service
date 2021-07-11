@@ -12,4 +12,6 @@ public interface RestaurantMapper {
     void insertRestaurant(@Param("ownerId") long ownerId, @Param("res") RestaurantDTO restaurant);
 
     List<RestaurantDTO> selectRestaurantsByOwnerId(Long ownerId);
+
+    RestaurantDTO selectRestaurantsByUid(Long uid);
 }

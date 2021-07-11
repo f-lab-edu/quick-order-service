@@ -1,4 +1,4 @@
-package com.quickorderservice.service.owner;
+package com.quickorderservice.service.restaurant;
 
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.mapper.RestaurantMapper;
@@ -19,5 +19,17 @@ public class RestaurantService {
 
     public List<RestaurantDTO> getRestaurantsByOwnerId(Long ownerUid) {
         return restaurantMapper.selectRestaurantsByOwnerId(ownerUid);
+    }
+
+    public RestaurantDTO getRestaurantsByUid(Long uid) {
+        return restaurantMapper.selectRestaurantsByUid(uid);
+    }
+
+    public void chooseRestaurant(long restaurantUid) {
+
+    }
+
+    public RestaurantDTO getChosenRestaurant() {
+        return null;
     }
 }

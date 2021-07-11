@@ -15,4 +15,10 @@
         WHERE ownerId = #{ownerId}
     </select>
 
+    <select id="selectRestaurantsByUid" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
+        SELECT *
+        FROM restaurants
+        WHERE uid = #{uid}
+    </select>
+
 </mapper>

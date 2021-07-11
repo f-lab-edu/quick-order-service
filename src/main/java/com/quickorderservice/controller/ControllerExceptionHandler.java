@@ -31,6 +31,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 
+    @ExceptionHandler
+    public ResponseEntity runtimeExceptionHandler(RuntimeException e) {
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+    }
+
     private class ErrorMessage {
 
         private String message;
