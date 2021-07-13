@@ -16,7 +16,7 @@ public class RiderController {
     private final RiderService reRiderService;
 
     @PostMapping
-    public void joinOwner(@RequestBody RiderDTO riderDTO) {
+    public void joinRider(@RequestBody RiderDTO riderDTO) {
         reRiderService.joinRider(riderDTO);
     }
 }
