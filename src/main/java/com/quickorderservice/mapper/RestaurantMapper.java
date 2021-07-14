@@ -14,8 +14,8 @@ public interface RestaurantMapper {
 
     List<RestaurantDTO> selectRestaurantsByOwnerId(Long ownerId);
 
-    List<RestaurantDTO> selectAllRestaurants();
+    List<RestaurantDTO> selectAllRestaurants(@Param("limit") int limit, @Param("offset") int offset);
 
-    List<RestaurantDTO> selectRestaurantsByCategory(RestaurantCategory category);
+    List<RestaurantDTO> selectRestaurantsByCategory(@Param("category") RestaurantCategory category, @Param("limit") int limit, @Param("offset") int offset);
 
 }

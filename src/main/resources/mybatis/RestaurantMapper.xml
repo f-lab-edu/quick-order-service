@@ -18,12 +18,14 @@
     <select id="selectAllRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT *
         FROM restaurants
+        LIMIT #{limit} OFFSET #{offset};
     </select>
 
     <select id="selectRestaurantsByCategory" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT *
         FROM restaurants
         WHERE category = #{category}
+        LIMIT #{limit} OFFSET #{offset};
     </select>
 
 </mapper>

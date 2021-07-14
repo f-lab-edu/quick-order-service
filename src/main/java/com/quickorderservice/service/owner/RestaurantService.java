@@ -22,11 +22,11 @@ public class RestaurantService {
         return restaurantMapper.selectRestaurantsByOwnerId(ownerUid);
     }
 
-    public List<RestaurantDTO> getAllRestaurants() {
-        return restaurantMapper.selectAllRestaurants();
+    public List<RestaurantDTO> getAllRestaurants(int offset, int limit) {
+        return restaurantMapper.selectAllRestaurants(offset, limit);
     }
 
-    public List<RestaurantDTO> getAllRestaurantsByCategory(RestaurantCategory category) {
-        return restaurantMapper.selectRestaurantsByCategory(category);
+    public List<RestaurantDTO> getAllRestaurantsByCategory(RestaurantCategory category, int offset, int limit) {
+        return restaurantMapper.selectRestaurantsByCategory(category, offset, limit);
     }
 }

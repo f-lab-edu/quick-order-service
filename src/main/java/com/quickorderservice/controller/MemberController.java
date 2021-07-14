@@ -5,11 +5,8 @@ import com.quickorderservice.dto.member.MemberDTO;
 
 import java.util.List;
 
-import com.quickorderservice.dto.restaurant.RestaurantDTO;
-import com.quickorderservice.enumdata.RestaurantCategory;
 import com.quickorderservice.service.LoginService;
 import com.quickorderservice.service.member.MemberService;
-import com.quickorderservice.service.owner.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +17,6 @@ public class MemberController {
 
     private final MemberService memberService;
     private final LoginService memberLoginService;
-    private final RestaurantService restaurantService;
 
     @GetMapping
     public List<MemberDTO> findAllMembers() {
@@ -67,13 +63,4 @@ public class MemberController {
         return memberService.findMemberByUid(memberUid);
     }
 
-    @GetMapping("/restaurants")
-    public List<RestaurantDTO> getAllRestaurants() {
-        return restaurantService.getAllRestaurants();
-    }
-
-    @GetMapping("/restaurants/{category}")
-    public List<RestaurantDTO> getRestaurantsByCategory(@PathVariable RestaurantCategory category) {
-        return restaurantService.getAllRestaurantsByCategory(category);
-    }
 }
