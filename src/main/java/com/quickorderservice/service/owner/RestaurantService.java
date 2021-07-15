@@ -22,11 +22,7 @@ public class RestaurantService {
         return restaurantMapper.selectRestaurantsByOwnerId(ownerUid);
     }
 
-    public List<RestaurantDTO> getAllRestaurants(int offset, int limit) {
-        return restaurantMapper.selectAllRestaurants(offset, limit);
-    }
-
-    public List<RestaurantDTO> getAllRestaurantsByCategory(RestaurantCategory category, int offset, int limit) {
-        return restaurantMapper.selectRestaurantsByCategory(category, offset, limit);
+    public List<RestaurantDTO> getAllRestaurants(RestaurantCategory category, int maxsize, int start) {
+        return restaurantMapper.selectRestaurants(category, maxsize, start);
     }
 }

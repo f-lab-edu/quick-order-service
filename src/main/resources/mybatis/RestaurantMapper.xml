@@ -15,16 +15,12 @@
         WHERE ownerId = #{ownerId}
     </select>
 
-    <select id="selectAllRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
+    <select id="selectRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT *
         FROM restaurants
-        LIMIT #{limit} OFFSET #{offset};
-    </select>
-
-    <select id="selectRestaurantsByCategory" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
-        SELECT *
-        FROM restaurants
-        WHERE category = #{category}
+        <if test="category != null">
+            WHERE category = #{category}
+        </if>
         LIMIT #{limit} OFFSET #{offset};
     </select>
 

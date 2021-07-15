@@ -27,18 +27,12 @@ public class RestaurantController {
         return restaurantService.getRestaurantsByOwnerId(ownerUid);
     }
 
-    @GetMapping
-    public List<RestaurantDTO> getAllRestaurants(
-            @RequestParam(required = false, defaultValue = "10") int limit,
-            @RequestParam(required = false, defaultValue = "0") int offset) {
-        return restaurantService.getAllRestaurants(limit, offset);
+    @GetMapping()
+    public List<RestaurantDTO> getRestaurants(
+            @RequestParam(required = false) RestaurantCategory category,
+            @RequestParam(required = false, defaultValue = "10") int maxsize,
+            @RequestParam(required = false, defaultValue = "0") int start) {
+        return restaurantService.getAllRestaurants(category, maxsize, start);
     }
 
-    @GetMapping("/categories/{category}")
-    public List<RestaurantDTO> getRestaurantsByCategory(
-            @PathVariable("category") RestaurantCategory category,
-            @RequestParam(required = false, defaultValue = "10") int limit,
-            @RequestParam(required = false, defaultValue = "0") int offset) {
-        return restaurantService.getAllRestaurantsByCategory(category, limit, offset);
-    }
 }
