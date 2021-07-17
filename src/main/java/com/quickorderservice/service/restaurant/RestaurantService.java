@@ -1,6 +1,9 @@
 package com.quickorderservice.service.restaurant;
 
+import com.quickorderservice.dto.menu.MenuDTO;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
+import com.quickorderservice.exception.NotFoundIdException;
+import com.quickorderservice.mapper.MenuMapper;
 import com.quickorderservice.mapper.RestaurantMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,11 +28,4 @@ public class RestaurantService {
         return restaurantMapper.selectRestaurantsByUid(uid);
     }
 
-    public void chooseRestaurant(long restaurantUid) {
-
-    }
-
-    public RestaurantDTO getChosenRestaurant() {
-        return null;
-    }
 }

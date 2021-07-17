@@ -14,4 +14,5 @@ public interface RestaurantMapper {
     List<RestaurantDTO> selectRestaurantsByOwnerId(Long ownerId);
 
     RestaurantDTO selectRestaurantsByUid(Long uid);
+
 }
