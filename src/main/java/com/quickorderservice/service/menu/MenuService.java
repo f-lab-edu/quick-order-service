@@ -2,6 +2,7 @@ package com.quickorderservice.service.menu;
 
 import com.quickorderservice.dto.menu.MenuDTO;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
+import com.quickorderservice.exception.MapperException;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MenuMapper;
 import com.quickorderservice.service.restaurant.RestaurantService;
@@ -34,7 +35,10 @@ public class MenuService {
         if (!isMatchedOwnerAndRestaurant(ownerUid, restaurantUid))
             throw new IllegalArgumentException("잘못된 식당에 접근하였습니다.");
 
-        menuMapper.insertMenu(menu, restaurantUid);
+        int result = menuMapper.insertMenu(menu, restaurantUid);
+
+        if(result != 1)
+            throw new MapperException("정상적으로 메뉴가 등록되지 않았습니다.");
     }
 
     private boolean isMatchedOwnerAndRestaurant(long ownerUid, Long restaurantUid) {

@@ -13,6 +13,6 @@ public interface MenuMapper {
 
     List<MenuDTO> selectAllMenuByRestaurantId(@Param("restaurantUid") Long restaurantUid);
 
-    void insertMenu(@Param("menu") MenuDTO menuDTO, @Param("restaurantUid") Long restaurantUid);
+    int insertMenu(@Param("menu") MenuDTO menuDTO, @Param("restaurantUid") Long restaurantUid);
 
 }
