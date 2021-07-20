@@ -22,7 +22,7 @@ public class RestaurantService {
         return restaurantMapper.selectRestaurantsByOwnerId(ownerUid);
     }
 
-    public List<RestaurantDTO> getAllRestaurants(RestaurantCategory category, int maxsize, int start) {
-        return restaurantMapper.selectRestaurants(category, maxsize, start);
+    public List<RestaurantDTO> getAllRestaurants(RestaurantCategory category, int pageSize, int page) {
+        return restaurantMapper.selectRestaurants(category, pageSize, page * pageSize + 1);
     }
 }

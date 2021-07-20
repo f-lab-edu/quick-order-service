@@ -30,9 +30,9 @@ public class RestaurantController {
     @GetMapping()
     public List<RestaurantDTO> getRestaurants(
             @RequestParam(required = false) RestaurantCategory category,
-            @RequestParam(required = false, defaultValue = "10") int maxsize,
-            @RequestParam(required = false, defaultValue = "0") int start) {
-        return restaurantService.getAllRestaurants(category, maxsize, start);
+            @RequestParam(required = false, defaultValue = "10") int pageSize,
+            @RequestParam(required = false, defaultValue = "0") int page) {
+        return restaurantService.getAllRestaurants(category, pageSize, page);
     }
 
 }
