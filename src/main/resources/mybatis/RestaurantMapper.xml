@@ -10,13 +10,13 @@
     </insert>
 
     <select id="selectRestaurantsByOwnerId" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
-        SELECT *
+        SELECT uid, ownerId, name, tel, category, createdAt, updatedAt
         FROM restaurants
         WHERE ownerId = #{ownerId}
     </select>
 
     <select id="selectRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
-        SELECT *
+        SELECT uid, ownerId, name, tel, category, createdAt, updatedAt
         FROM restaurants
         <if test="category != null">
             WHERE category = #{category}
