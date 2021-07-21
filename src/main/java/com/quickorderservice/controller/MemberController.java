@@ -62,4 +62,5 @@ public class MemberController {
     public MemberDTO getLogin(@MemberId Long memberUid) {
         return memberService.findMemberByUid(memberUid);
     }
+
 }
