@@ -20,9 +20,12 @@ import java.util.List;
 @Transactional
 class MenuMapperTest {
 
-    @Autowired MenuMapper menuMapper;
-    @Autowired RestaurantService restaurantService;
-    @Autowired OwnerService ownerService;
+    @Autowired
+    MenuMapper menuMapper;
+    @Autowired
+    RestaurantService restaurantService;
+    @Autowired
+    OwnerService ownerService;
     OwnerDTO owner;
     RestaurantDTO restaurant;
 
@@ -40,7 +43,7 @@ class MenuMapperTest {
     @Test
     @DisplayName("정상적으로 메뉴 등록시 1을 반환한다.")
     void insertMenu() {
-        MenuDTO menu = new MenuDTO(null, null, "menu", 100, 100, null, null);
+        MenuDTO menu = new MenuDTO(0, 0, "menu", 100, 100, null, null);
         int result = menuMapper.insertMenu(menu, restaurant.getUid());
 
         Assertions.assertThat(result).isEqualTo(1);
@@ -49,7 +52,7 @@ class MenuMapperTest {
     @Test
     @DisplayName("정상적으로 restaurant의 UID로 메뉴 조회시 메뉴 리스트를 반환한다.")
     void selectAllMenuByRestaurantId() {
-        MenuDTO menu = new MenuDTO(null, null, "menu", 100, 100, null, null);
+        MenuDTO menu = new MenuDTO(0,0, "menu", 100, 100, null, null);
         menuMapper.insertMenu(menu, restaurant.getUid());
         menuMapper.insertMenu(menu, restaurant.getUid());
 

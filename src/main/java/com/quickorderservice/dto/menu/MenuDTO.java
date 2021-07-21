@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @ToString
 public class MenuDTO {
 
-    private Long uid;
-    private Long restaurantId;
+    private long uid;
+    private long restaurantId;
     private String name;
     private int price;
     private int stock;
