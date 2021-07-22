@@ -28,11 +28,14 @@ public class RiderLoginService implements LoginService {
     }
 
     @Override
-    public Long getLoginUid() {
-        Long loginRiderUid = (Long) httpSession.getAttribute(RIDER_UID);
+    public long getLoginUid() {
+        long loginRiderUid;
 
-        if (loginRiderUid == null)
+        try {
+            loginRiderUid = (long) httpSession.getAttribute(RIDER_UID);
+        } catch (NullPointerException e) {
             throw new NeedLoginException("로그인이 필요합니다.");
+        }
 
         return loginRiderUid;
     }
