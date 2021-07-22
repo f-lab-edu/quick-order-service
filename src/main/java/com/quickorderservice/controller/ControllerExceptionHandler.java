@@ -12,22 +12,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity duplicatedIdExceptionHandler(DuplicatedIdException e) {
+    public ResponseEntity<ErrorMessage> duplicatedIdExceptionHandler(DuplicatedIdException e) {
         return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler
-    public ResponseEntity editMemberExceptionHandler(EditException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler
-    public ResponseEntity needLoginExceptionHandler(NeedLoginException e) {
+    public ResponseEntity<ErrorMessage> editMemberExceptionHandler(EditException e) {
         return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler
-    public ResponseEntity notFoundIdExceptionHandler(NotFoundIdException e) {
+    public ResponseEntity<ErrorMessage> needLoginExceptionHandler(NeedLoginException e) {
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> notFoundIdExceptionHandler(NotFoundIdException e) {
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> runtimeExceptionHandler(RuntimeException e) {
         return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.quickorderservice.mapper.MenuMapper">
+
+    <select id="selectMenuByUid" resultType="com.quickorderservice.dto.menu.MenuDTO">
+        SELECT *
+        FROM menus
+        WHERE uid = #{uid}
+    </select>
+
+    <select id="selectAllMenuByRestaurantId" resultType="com.quickorderservice.dto.menu.MenuDTO">
+        SELECT *
+        FROM menus
+        WHERE restaurantId = #{restaurantUid}
+    </select>
+
+    <insert id="insertMenu">
+        INSERT INTO menus (restaurantId, name, price, stock)
+        VALUES (#{restaurantUid}, #{menu.name}, #{menu.price}, #{menu.stock})
+    </insert>
+
+</mapper>
+
+
+
+
+

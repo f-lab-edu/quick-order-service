@@ -3,7 +3,7 @@ package com.quickorderservice.controller;
 import com.quickorderservice.annotation.OwnerId;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.enumdata.RestaurantCategory;
-import com.quickorderservice.service.owner.RestaurantService;
+import com.quickorderservice.service.restaurant.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

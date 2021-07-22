@@ -1,4 +1,4 @@
-package com.quickorderservice.service.owner;
+package com.quickorderservice.service.restaurant;
 
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.enumdata.RestaurantCategory;
@@ -25,4 +25,9 @@ public class RestaurantService {
     public List<RestaurantDTO> getAllRestaurants(RestaurantCategory category, int pageSize, int page) {
         return restaurantMapper.selectRestaurants(category, pageSize, page * pageSize + 1);
     }
+
+    public RestaurantDTO getRestaurantsByUid(Long uid) {
+        return restaurantMapper.selectRestaurantsByUid(uid);
+    }
+
 }
