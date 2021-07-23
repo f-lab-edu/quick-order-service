@@ -35,7 +35,7 @@ class MenuMapperTest {
         ownerService.joinOwner(owner);
         owner = ownerService.findOwnerById("owner");
 
-        restaurant = new RestaurantDTO(null, null, "res", "-", null, null);
+        restaurant = new RestaurantDTO(null, null, "res", "-", null, null,null);
         restaurantService.registerRestaurant(owner.getUid(), restaurant);
         restaurant = restaurantService.getRestaurantsByOwnerId(owner.getUid()).get(0);
     }

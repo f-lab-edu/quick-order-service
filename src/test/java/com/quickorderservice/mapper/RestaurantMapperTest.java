@@ -2,6 +2,7 @@ package com.quickorderservice.mapper;
 
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
+import com.quickorderservice.enumdata.RestaurantCategory;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.exception.auth.NeedLoginException;
 import com.quickorderservice.service.owner.OwnerLoginService;
@@ -37,7 +38,7 @@ class RestaurantMapperTest {
         OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
         RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
-                LocalDateTime.now(), LocalDateTime.now());
+                RestaurantCategory.ETC,LocalDateTime.now(), LocalDateTime.now());
 
         restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
         List<RestaurantDTO> restaurants = restaurantMapper.selectRestaurantsByOwnerId(findOwner.getUid());
@@ -55,7 +56,7 @@ class RestaurantMapperTest {
             OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
             RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
-                    LocalDateTime.now(), LocalDateTime.now());
+                    RestaurantCategory.ETC,LocalDateTime.now(), LocalDateTime.now());
 
             restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
         });

@@ -3,6 +3,7 @@ package com.quickorderservice.service.menu;
 import com.quickorderservice.dto.menu.MenuDTO;
 import com.quickorderservice.dto.owner.OwnerDTO;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
+import com.quickorderservice.enumdata.RestaurantCategory;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MenuMapper;
 import com.quickorderservice.service.restaurant.RestaurantService;
@@ -31,7 +32,8 @@ class MenuServiceTest {
     public void registerMenu() {
         MenuDTO menu = new MenuDTO(1L, 1L, "menu", 111, 123, null, null);
         OwnerDTO owner = new OwnerDTO(1L, "owner", "1234", "test", "-", "-", null, null);
-        RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "-", null, null);
+        RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "11",
+                RestaurantCategory.CHINESE, null, null);
 
         when(restaurantService.getRestaurantsByUid(1L)).thenReturn(restaurant);
         when(menuMapper.insertMenu(menu, restaurant.getUid())).thenReturn(1);
@@ -43,7 +45,8 @@ class MenuServiceTest {
     public void registerMenuWithNotExistRestaurant() {
         MenuDTO menu = new MenuDTO(1L, 1L, "menu", 111, 123, null, null);
         OwnerDTO owner = new OwnerDTO(1L, "owner", "1234", "test", "-", "-", null, null);
-        RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "-", null, null);
+        RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "11",
+                RestaurantCategory.CHINESE, null, null);
 
         when(restaurantService.getRestaurantsByUid(restaurant.getUid())).thenReturn(null);
 
@@ -57,7 +60,8 @@ class MenuServiceTest {
     public void registerMenuWithWrongRestaurant() {
         MenuDTO menu = new MenuDTO(1L, 1L, "menu", 111, 123, null, null);
         OwnerDTO owner = new OwnerDTO(1L, "owner", "1234", "test", "-", "-", null, null);
-        RestaurantDTO wrongRestaurant = new RestaurantDTO(2L, 2L, "res", "-", null, null);
+        RestaurantDTO wrongRestaurant = new RestaurantDTO(2L, 2L, "res", "1",
+                RestaurantCategory.ETC, null, null);
 
         when(restaurantService.getRestaurantsByUid(1L)).thenReturn(wrongRestaurant);
 
