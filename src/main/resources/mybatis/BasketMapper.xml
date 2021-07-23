@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.quickorderservice.mapper.BasketMapper">
+
+    <insert id="insertBasket">
+        INSERT INTO baskets (memberUid, restaurantUid)
+        VALUES (#{memberUid}, #{restaurantUid})
+    </insert>
+
+    <delete id="deleteBasket">
+        DELETE FROM baskets
+        WHERE memberUid = #{memberUid}
+    </delete>
+
+    <select id="selectBasketByMemberUid" resultType="com.quickorderservice.dto.basket.BasketDTO">
+        SELECT memberUid, restaurantUid
+        FROM baskets
+        WHERE memberUid = #{memberUid}
+    </select>
+
+    <insert id="insertBasketMenu">
+        INSERT INTO basket_menus (memberUid, menuUid, restaurantUid, quantity)
+        VALUES (#{memberUid}, #{basketMenu.menuUid}, #{basketMenu.restaurantUid}, #{basketMenu.quantity})
+    </insert>
+
+    <delete id="deleteMenuInBasket">
+        DELETE FROM basket_menus
+        WHERE memberUid = #{memberUid}
+        AND menuUid = #{menuUid}
+    </delete>
+
+    <delete id="deleteAllMenuInBasket">
+        DELETE FROM basket_menus
+        WHERE memberUid = #{memberUid}
+    </delete>
+
+    <update id="updateBasketMenuQuantity">
+        UPDATE basket_menus SET
+        quantity = #{quantity}
+        WHERE memberUid = #{memberUid}
+        AND menuUid = #{menuUid}
+    </update>
+
+    <select id="selectAllMenuInBasket" resultType="com.quickorderservice.dto.basket.BasketMenuDTO">
+        SELECT memberUid, restaurantUid, menuUid, quantity
+        FROM basket_menus
+        WHERE memberUid = #{memberUid}
+    </select>
+
+    <select id="selectBasketMenuByMemberUidAndMenuUid" resultType="com.quickorderservice.dto.basket.BasketMenuDTO">
+        SELECT memberUid, restaurantUid, menuUid, quantity
+        FROM basket_menus
+        WHERE memberUid = #{memberUid}
+        AND menuUid = #{menuUid}
+    </select>
+</mapper>
