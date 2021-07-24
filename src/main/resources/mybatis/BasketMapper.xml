@@ -28,12 +28,9 @@
     <delete id="deleteMenuInBasket">
         DELETE FROM basket_menus
         WHERE memberUid = #{memberUid}
-        AND menuUid = #{menuUid}
-    </delete>
-
-    <delete id="deleteAllMenuInBasket">
-        DELETE FROM basket_menus
-        WHERE memberUid = #{memberUid}
+        <if test="menuUid != null">
+            AND menuUid = #{menuUid}
+        </if>
     </delete>
 
     <update id="updateBasketMenuQuantity">

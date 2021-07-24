@@ -1,5 +1,6 @@
 package com.quickorderservice.controller;
 
+import com.quickorderservice.exception.BasketException;
 import com.quickorderservice.exception.DuplicatedIdException;
 import com.quickorderservice.exception.EditException;
 import com.quickorderservice.exception.NotFoundIdException;
@@ -32,9 +33,14 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorMessage> runtimeExceptionHandler(RuntimeException e) {
+    public ResponseEntity<ErrorMessage> basketExceptionHandler(BasketException e) {
         return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
     }
+
+    /*@ExceptionHandler
+    public ResponseEntity<ErrorMessage> runtimeExceptionHandler(RuntimeException e) {
+        return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+    }*/
 
     private class ErrorMessage {
 

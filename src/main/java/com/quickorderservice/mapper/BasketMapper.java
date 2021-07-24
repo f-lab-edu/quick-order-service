@@ -20,9 +20,7 @@ public interface BasketMapper {
 
     int insertBasketMenu(@Param("memberUid") long memberUid, @Param("basketMenu") BasketMenuDTO basketMenu);
 
-    int deleteMenuInBasket(long memberUid, long menuUid);
-
-    int deleteAllMenuInBasket(long memberUid);
+    int deleteMenuInBasket(@Param("memberUid") long memberUid, @Param("menuUid") Long menuUid);
 
     int updateBasketMenuQuantity(@Param("memberUid") long memberUid, @Param("menuUid") long menuUid, @Param("quantity") int quantity);
 

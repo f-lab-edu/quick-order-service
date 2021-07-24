@@ -2,31 +2,21 @@ package com.quickorderservice.service.basket;
 
 import com.quickorderservice.dto.basket.BasketDTO;
 import com.quickorderservice.dto.basket.BasketMenuDTO;
+import com.quickorderservice.exception.BasketException;
 import com.quickorderservice.mapper.BasketMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class BasketService {
 
     private final BasketMapper basketMapper;
-
-    /*
-        1. 메뉴 담기
-          1-1) 장바구니가 없다면 새로 생성해서 담음
-          1-2) 장바구니가 존재한다면 동일 식당인지 확인
-             1-2-1) 동일 식당이면 담음
-               1-2-1-1) 이미 존재하는 메뉴라면 수량 변경
-               1-2-1-2) 존재히자 않은 메뉴
-             1-2-2) 동일 식당이 아니면 예외
-        2. 메뉴 수량 수정 ( n>0)
-        3. 메뉴 삭제
-
-
-     */
 
     public void addMenuInBasket(long memberUid, BasketMenuDTO basketMenu) {
         BasketDTO basket = getBasket(memberUid);
@@ -36,8 +26,8 @@ public class BasketService {
             basket = getBasket(memberUid);
         }
 
-        if (basket.getRestaurantUid() != basket.getRestaurantUid())
-            throw new RuntimeException("다른 식당의 메뉴는 장바구니에 추가할 수 없습니다.");
+        if (basket.getRestaurantUid() != basketMenu.getRestaurantUid())
+            throw new BasketException("다른 식당의 메뉴는 장바구니에 추가할 수 없습니다.");
 
         BasketMenuDTO menuInBasket = getMenuInBasket(memberUid, basketMenu.getMenuUid());
 
@@ -52,10 +42,13 @@ public class BasketService {
     }
 
     public void changeQuantity(long memberUid, long menuUid, int quantity) {
+        if (quantity < 1)
+            throw new IllegalArgumentException("수량은 1개 이상만 가능합니다.");
+
         basketMapper.updateBasketMenuQuantity(memberUid, menuUid, quantity);
     }
 
-    public void deleteMenuInBasket(long memberUid, long menuUid) {
+    public void deleteMenuInBasket(long memberUid, Long menuUid) {
         basketMapper.deleteMenuInBasket(memberUid, menuUid);
     }
 
@@ -68,12 +61,8 @@ public class BasketService {
     }
 
     public void deleteBasket(long memberUid) {
-        deleteAllMenuInBasket(memberUid);
+        deleteMenuInBasket(memberUid, null);
         basketMapper.deleteBasket(memberUid);
-    }
-
-    public void deleteAllMenuInBasket(long memberUid) {
-        basketMapper.deleteAllMenuInBasket(memberUid);
     }
 
     public List<BasketMenuDTO> getAllMenuInBasket(long memberUid) {

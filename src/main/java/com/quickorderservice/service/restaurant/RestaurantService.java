@@ -23,7 +23,7 @@ public class RestaurantService {
     }
 
     public List<RestaurantDTO> getAllRestaurants(RestaurantCategory category, int pageSize, int page) {
-        return restaurantMapper.selectRestaurants(category, pageSize, page * pageSize + 1);
+        return restaurantMapper.selectRestaurants(category, pageSize, page * pageSize);
     }
 
     public RestaurantDTO getRestaurantsByUid(Long uid) {
