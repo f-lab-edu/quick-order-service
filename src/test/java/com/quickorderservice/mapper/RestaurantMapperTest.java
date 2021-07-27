@@ -36,7 +36,7 @@ class RestaurantMapperTest {
 
         OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
-        RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
+        RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234", null,
                 LocalDateTime.now(), LocalDateTime.now());
 
         restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
@@ -54,7 +54,7 @@ class RestaurantMapperTest {
         org.junit.jupiter.api.Assertions.assertThrows(NeedLoginException.class, () -> {
             OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
-            RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234",
+            RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234", null,
                     LocalDateTime.now(), LocalDateTime.now());
 
             restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);

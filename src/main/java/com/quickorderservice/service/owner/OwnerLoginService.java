@@ -25,11 +25,14 @@ public class OwnerLoginService implements LoginService {
         httpSession.removeAttribute(OWNER_UID);
     }
 
-    public Long getLoginUid() {
-        Long loginOwnerUid = (Long) httpSession.getAttribute(OWNER_UID);
+    public long getLoginUid() {
+        long loginOwnerUid;
 
-        if(loginOwnerUid == null)
+        try {
+            loginOwnerUid = (long) httpSession.getAttribute(OWNER_UID);
+        } catch (NullPointerException e) {
             throw new NeedLoginException("로그인이 필요합니다.");
+        }
 
         return loginOwnerUid;
     }
