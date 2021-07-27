@@ -25,7 +25,7 @@ public class MenuService {
     public MenuDTO getMenuByUid(Long menuUid) {
         MenuDTO menu = menuMapper.selectMenuByUid(menuUid);
 
-        if(menu == null)
+        if (menu == null)
             throw new NotFoundIdException("존재하지 않는 메뉴 입니다.");
 
         return menuMapper.selectMenuByUid(menuUid);
@@ -37,7 +37,7 @@ public class MenuService {
 
         int result = menuMapper.insertMenu(menu, restaurantUid);
 
-        if(result != 1)
+        if (result != 1)
             throw new RegisterException("정상적으로 메뉴가 등록되지 않았습니다.");
     }
 
@@ -48,5 +48,9 @@ public class MenuService {
             throw new NotFoundIdException("식당이 존재하지 않습니다.");
 
         return restaurant.getOwnerId() == ownerUid;
+    }
+
+    public MenuDTO getMenuUidAndRestaurantUid(long menuUid, long restaurantUid) {
+        return menuMapper.selectMenuByUidAndRestaurantUid(menuUid, restaurantUid);
     }
 }

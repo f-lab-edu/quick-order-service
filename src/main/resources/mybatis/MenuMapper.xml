@@ -21,6 +21,13 @@
         VALUES (#{restaurantUid}, #{menu.name}, #{menu.price}, #{menu.stock})
     </insert>
 
+    <select id="selectMenuByUidAndRestaurantUid" resultType="com.quickorderservice.dto.menu.MenuDTO">
+        SELECT uid, restaurantId, name, price, stock, createdAt, updatedAt
+        FROM menus
+        WHERE uid = #{uid}
+        AND restaurantId = #{restaurantUid}
+    </select>
+
 </mapper>
 
 

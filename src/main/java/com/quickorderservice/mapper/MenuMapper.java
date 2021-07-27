@@ -15,4 +15,5 @@ public interface MenuMapper {
 
     int insertMenu(@Param("menu") MenuDTO menuDTO, @Param("restaurantUid") Long restaurantUid);
 
+    MenuDTO selectMenuByUidAndRestaurantUid(@Param("uid") long uid, @Param("restaurantUid") long restaurantUid);
 }
