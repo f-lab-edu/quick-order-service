@@ -15,7 +15,6 @@
         WHERE ownerId = #{ownerId}
     </select>
 
-<<<<<<< HEAD
     <select id="selectRestaurants" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT uid, ownerId, name, tel, category, createdAt, updatedAt
         FROM restaurants
@@ -25,8 +24,6 @@
         LIMIT #{limit} OFFSET #{offset};
     </select>
 
-</mapper>
-=======
     <select id="selectRestaurantsByUid" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
         SELECT *
         FROM restaurants
@@ -51,9 +48,3 @@
     </insert>
 
 </mapper>
-
-
-
-
-
->>>>>>> feature/19

@@ -89,7 +89,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("정상적으로 회원 정보 수정시 에러가 발생하지 않는다.")
     void editMemberInfo() {
-        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
+        MemberDTO member = new MemberDTO(1l, "test", "1234", "jang", "010-0000-0000",
                 "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
