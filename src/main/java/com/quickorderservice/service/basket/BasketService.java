@@ -17,7 +17,7 @@ import java.util.Map;
 public class BasketService {
 
     private final RedisTemplate redisTemplate;
-    private MenuService menuService;
+    private final MenuService menuService;
     private final String BASKET_ID = "BASKET";
 
     public void putMenuInBasket(long memberUid, BasketMenu basketMenu) {
@@ -25,7 +25,7 @@ public class BasketService {
         String key = getKey(memberUid);
 
         MenuDTO menu = menuService.getMenuUidAndRestaurantUid(basketMenu.getMenuUid(), basketMenu.getRestaurantUid());
-        if(menu == null) {
+        if (menu == null) {
             throw new BasketException("잘못된 식당의 메뉴에 접근하였습니다.");
         }
 
@@ -33,7 +33,7 @@ public class BasketService {
 
         if (basketMenuMap == null) {
             basketMenuMap = new HashMap();
-        }else if( basketMenuMap.get(basketMenuMap.keySet().toArray()[0]).getRestaurantUid() != basketMenu.getRestaurantUid()) {
+        } else if (basketMenuMap.get(basketMenuMap.keySet().toArray()[0]).getRestaurantUid() != basketMenu.getRestaurantUid()) {
             throw new BasketException("다른 식당의 메뉴는 등록할 수 없습니다.");
         }
 
