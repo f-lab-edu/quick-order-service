@@ -5,17 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class BasketMenu {
+public class BasketDTO {
 
-    long menuUid;
-    long restaurantUid;
-    long memberUid;
-    int quantity;
+    private long memberUid;
+    private long restaurantUid;
 
 }
