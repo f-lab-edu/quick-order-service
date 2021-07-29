@@ -1,32 +1,25 @@
 package com.quickorderservice.utiles.geo;
 
-import com.quickorderservice.utiles.geo.GeoData;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
 
 @Component
 public class Geocoding {
 
-    private static String API_KEY_ID;
-    private static String API_KEY;
-
-    @Value("${geo.api.key}")
-    private void setValue(String key) {
-        API_KEY = key;
-    }
-
     @Value("${geo.api.id}")
-    private void setValue2(String id) {
-        API_KEY_ID = id;
-    }
+    private String API_KEY_ID;
+    @Value("${geo.api.key}")
+    private String API_KEY;
+    @Value("${geo.api.url}")
+    private String API_URL;
 
-    public static GeoData getGeoDataByAddress(String completeAddress) {
-
-        String url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + completeAddress;
+    public GeoData getGeoDataByAddress(String completeAddress) {
+        String url = API_URL + completeAddress;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 

@@ -13,7 +13,7 @@ class GeocodingTest {
     @Test
     @DisplayName("정상적으로 주소를 입력하면 geo 데이터를 불러온다.")
     public void geo() {
-        GeoData geoDataByAddress = Geocoding.getGeoDataByAddress("분당구 불정로 1");
+        GeoData geoDataByAddress = new Geocoding().getGeoDataByAddress("분당구 불정로 1");
         GeoData.Address[] addresses = geoDataByAddress.getAddresses();
 
         Assertions.assertThat(geoDataByAddress.getStatus()).isEqualTo("OK");
@@ -23,7 +23,7 @@ class GeocodingTest {
     @Test
     @DisplayName("잘못된 주소를 입력하면 geo 데이터는 비어있다.")
     public void geoWithWrongAddress() {
-        GeoData geoDataByAddress = Geocoding.getGeoDataByAddress("잘못된 주소");
+        GeoData geoDataByAddress = new Geocoding().getGeoDataByAddress("잘못된 주소");
 
         GeoData.Meta meta = geoDataByAddress.getMeta();
         GeoData.Address[] addresses = geoDataByAddress.getAddresses();
