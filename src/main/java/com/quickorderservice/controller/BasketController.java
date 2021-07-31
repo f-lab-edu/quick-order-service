@@ -6,6 +6,7 @@ import com.quickorderservice.service.basket.BasketService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,7 +22,7 @@ public class BasketController {
     }
 
     @GetMapping("/baskets")
-    public Map<Long, BasketMenu> getAllMenus(@MemberId long memberUid) {
+    public List<BasketMenu> getAllMenus(@MemberId long memberUid) {
         return basketService.getAllBasketMenusByMemberUid(memberUid);
     }
 }

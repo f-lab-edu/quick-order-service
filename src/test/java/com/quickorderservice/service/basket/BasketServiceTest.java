@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +50,7 @@ class BasketServiceTest {
         basketService.putMenuInBasket(memberUid, basketMenu);
         basketService.putMenuInBasket(memberUid, basketMenu2);
 
-        Map<Long, BasketMenu> allBasketMenus = basketService.getAllBasketMenusByMemberUid(memberUid);
+        List<BasketMenu> allBasketMenus = basketService.getAllBasketMenusByMemberUid(memberUid);
 
         Assertions.assertThat(allBasketMenus.size()).isEqualTo(2);
     }
