@@ -30,7 +30,7 @@
 
     <insert id="insertMember">
         INSERT INTO members (memberId,password,name,tel,email,address,lat,lon)
-        VALUES (#{member.memberId},#{password},#{member.name},#{member.tel},#{member.email},#{member.address},#{lat},#{lon})
+        VALUES (#{member.memberId},#{password},#{member.name},#{member.tel},#{member.email},#{member.address},#{latlon.lat},#{latlon.lon})
     </insert>
 
     <delete id="deleteMember">

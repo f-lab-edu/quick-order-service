@@ -3,8 +3,8 @@ package com.quickorderservice.service.restaurant;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.enumdata.RestaurantCategory;
 import com.quickorderservice.mapper.RestaurantMapper;
-import com.quickorderservice.utiles.geo.GeoData;
 import com.quickorderservice.utiles.geo.Geocoding;
+import com.quickorderservice.utiles.geo.LatLonData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +18,8 @@ public class RestaurantService {
     private final Geocoding geocoding;
 
     public void registerRestaurant(Long ownerUid, RestaurantDTO restaurant) {
-        GeoData geoDataByAddress = geocoding.getGeoDataByAddress(restaurant.getAddress());
-        GeoData.Address[] addresses = geoDataByAddress.getAddresses();
-        double lat = addresses[0].getX();
-        double lon = addresses[0].getY();
-
-        restaurantMapper.insertRestaurant(ownerUid, restaurant, lat, lon);
+        LatLonData latLon = geocoding.getLatLon(restaurant.getAddress());
+        restaurantMapper.insertRestaurant(ownerUid, restaurant, latLon);
     }
 
     public List<RestaurantDTO> getRestaurantsByOwnerId(Long ownerUid) {

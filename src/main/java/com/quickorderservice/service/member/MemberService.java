@@ -6,8 +6,8 @@ import com.quickorderservice.exception.EditException;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
-import com.quickorderservice.utiles.geo.GeoData;
 import com.quickorderservice.utiles.geo.Geocoding;
+import com.quickorderservice.utiles.geo.LatLonData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,12 +28,9 @@ public class MemberService {
 
         String encPassword = SHA256.encBySha256(memberDTO.getPassword());
 
-        GeoData geoDataByAddress = geocoding.getGeoDataByAddress(memberDTO.getAddress());
-        GeoData.Address[] addresses = geoDataByAddress.getAddresses();
-        double lat = addresses[0].getX();
-        double lon = addresses[0].getY();
+        LatLonData latLon = geocoding.getLatLon(memberDTO.getAddress());
 
-        return memberMapper.insertMember(memberDTO, encPassword, lat, lon);
+        return memberMapper.insertMember(memberDTO, encPassword, latLon);
     }
 
     public MemberDTO findMemberById(String memberId) {

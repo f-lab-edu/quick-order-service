@@ -32,10 +32,18 @@ public class Geocoding {
         ResponseEntity<GeoData> response = restTemplate.exchange(url, HttpMethod.GET, request, GeoData.class);
 
         GeoData geoData = response.getBody();
-        if(geoData.getMeta().getCount()==0)
+        if (geoData.getMeta().getCount() == 0)
             throw new GeoException("잘못된 주소를 입력하였습니다.");
 
         return response.getBody();
+    }
+
+    public LatLonData getLatLon(String completeAddress) {
+        GeoData geoData = getGeoDataByAddress(completeAddress);
+        GeoData.Address[] addresses = geoData.getAddresses();
+        double lat = addresses[0].getX();
+        double lon = addresses[0].getY();
+        return new LatLonData(lat, lon);
     }
 
 }

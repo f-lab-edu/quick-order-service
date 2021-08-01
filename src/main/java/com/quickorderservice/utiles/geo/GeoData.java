@@ -24,8 +24,8 @@ public class GeoData {
         private String roadAddress;
         private String jibunAddress;
         private String englishAddress;
-        private float x;
-        private float y;
+        private double x;
+        private double y;
         private float distance;
     }
 

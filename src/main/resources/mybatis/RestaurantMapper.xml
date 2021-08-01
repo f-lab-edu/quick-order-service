@@ -6,7 +6,7 @@
 
     <insert id="insertRestaurant">
         INSERT INTO restaurants (ownerId, name, tel, category, address, lat, lon)
-        VALUES (#{ownerId}, #{res.name}, #{res.tel}, #{res.category}, #{res.address}, #{lat}, #{lon})
+        VALUES (#{ownerId}, #{res.name}, #{res.tel}, #{res.category}, #{res.address}, #{latLon.lat}, #{latLon.lon})
     </insert>
 
     <select id="selectRestaurantsByOwnerId" resultType="com.quickorderservice.dto.restaurant.RestaurantDTO">
