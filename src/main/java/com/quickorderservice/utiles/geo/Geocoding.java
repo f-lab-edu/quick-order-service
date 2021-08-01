@@ -1,5 +1,6 @@
 package com.quickorderservice.utiles.geo;
 
+import com.quickorderservice.exception.GeoException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +30,10 @@ public class Geocoding {
         HttpEntity request = new HttpEntity(headers);
 
         ResponseEntity<GeoData> response = restTemplate.exchange(url, HttpMethod.GET, request, GeoData.class);
+
+        GeoData geoData = response.getBody();
+        if(geoData.getMeta().getCount()==0)
+            throw new GeoException("잘못된 주소를 입력하였습니다.");
 
         return response.getBody();
     }

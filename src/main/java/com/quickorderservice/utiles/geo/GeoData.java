@@ -20,7 +20,7 @@ public class GeoData {
 
     @Getter
     @ToString
-    static class Address {
+    public static class Address {
         private String roadAddress;
         private String jibunAddress;
         private String englishAddress;
