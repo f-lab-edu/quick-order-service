@@ -29,8 +29,8 @@
     </select>
 
     <insert id="insertMember">
-        insert into members (memberId,password,name,tel,email,address)
-        values (#{memberId},#{password},#{name},#{tel},#{email},#{address})
+        INSERT INTO members (memberId,password,name,tel,email,address,lat,lon)
+        VALUES (#{member.memberId},#{password},#{member.name},#{member.tel},#{member.email},#{member.address},#{lat},#{lon})
     </insert>
 
     <delete id="deleteMember">

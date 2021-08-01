@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
-    int insertMember(MemberDTO memberDTO);
+    int insertMember(@Param("member") MemberDTO memberDTO, @Param("password") String password, @Param("lat") double lat, @Param("lon") double lon);
 
     int deleteMember(Long uid);
 
@@ -19,7 +19,7 @@ public interface MemberMapper {
 
     int updateMember(MemberDTO memberDTO);
 
-    int updateMemberPassword(MemberDTO memberDTO);
+    int updateMemberPassword(MemberDTO memberDTO, String password);
 
     List<MemberDTO> selectAllMembers();
 
