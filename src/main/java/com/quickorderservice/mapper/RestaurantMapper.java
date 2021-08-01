@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface RestaurantMapper {
 
-    void insertRestaurant(@Param("ownerId") long ownerId, @Param("res") RestaurantDTO restaurant);
+    void insertRestaurant(@Param("ownerId") long ownerId, @Param("res") RestaurantDTO restaurant, @Param("lat") double lat, @Param("lon") double lon);
 
     List<RestaurantDTO> selectRestaurantsByOwnerId(Long ownerId);
 
