@@ -6,6 +6,8 @@ import com.quickorderservice.exception.EditException;
 import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.mapper.MemberMapper;
 import com.quickorderservice.utiles.SHA256;
+import com.quickorderservice.utiles.geo.Geocoding;
+import com.quickorderservice.utiles.geo.LatLonData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +20,17 @@ import java.util.List;
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final Geocoding geocoding;
 
     public int joinMember(MemberDTO memberDTO) {
         if (isExistMember(memberDTO.getMemberId()))
             throw new DuplicatedIdException("이미 존재하는 아이디 입니다.");
 
-        memberDTO.setPassword(SHA256.encBySha256(memberDTO.getPassword()));
+        String encPassword = SHA256.encBySha256(memberDTO.getPassword());
 
-        return memberMapper.insertMember(memberDTO);
+        LatLonData latLon = geocoding.getLatLon(memberDTO.getAddress());
+
+        return memberMapper.insertMember(memberDTO, encPassword, latLon);
     }
 
     public MemberDTO findMemberById(String memberId) {
@@ -63,9 +68,7 @@ public class MemberService {
         if (SHA256.encBySha256(oldPassword).equals(newEncryptPassword))
             throw new EditException("기존의 비밀번호와 같습니다.");
 
-        member.setPassword(newEncryptPassword);
-
-        int updatedCount = memberMapper.updateMemberPassword(member);
+        int updatedCount = memberMapper.updateMemberPassword(member, newEncryptPassword);
         if (updatedCount != 1)
             throw new EditException("정상적으로 수정이 되지 않았습니다.");
     }

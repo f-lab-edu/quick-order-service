@@ -16,6 +16,8 @@ public class MemberDTO {
     private String tel;
     private String email;
     private String address;
+    private double latitude;
+    private double longitude;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -29,7 +31,4 @@ public class MemberDTO {
         return ((MemberDTO) obj).getMemberId().equals(this.getMemberId());
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

@@ -16,6 +16,9 @@ public class RestaurantDTO {
     private Long ownerId;
     private String name;
     private String tel;
+    private String address;
+    private double latitude;
+    private double longitude;
     private RestaurantCategory category;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

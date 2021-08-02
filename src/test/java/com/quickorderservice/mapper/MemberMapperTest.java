@@ -118,15 +118,15 @@ class MemberMapperTest {
     void updateMemberPassword() {
         MemberDTO memberDTO1 = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul",0,0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberMapper.insertMember(memberDTO1);
 
         String newPassword = "9876";
         MemberDTO findMember1 = memberMapper.selectMemberById(memberDTO1.getMemberId());
-        findMember1.setPassword(newPassword);
-        int result = memberMapper.updateMemberPassword(findMember1);
+
+        int result = memberMapper.updateMemberPassword(findMember1, newPassword);
 
         Assertions.assertThat(result).isEqualTo(1);
 
