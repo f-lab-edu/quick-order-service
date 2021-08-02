@@ -17,8 +17,9 @@ public class RestaurantDTO {
     private String name;
     private String tel;
     private String address;
-    private double latitude;
-    private double longitude;
+    private double lat;
+    private double lon;
+    private double deliveryRange;
     private RestaurantCategory category;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

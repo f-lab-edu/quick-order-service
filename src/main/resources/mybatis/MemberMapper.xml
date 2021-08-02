@@ -10,13 +10,13 @@
     </select>
 
     <select id="selectMemberById" resultType="com.quickorderservice.dto.member.MemberDTO">
-        select uid, memberId, password, name, tel, email, address
-        from members
-        where memberId = #{memberId}
+        SELECT uid, memberId, password, name, tel, email, address, lat, lon
+        FROM members
+        WHERE memberId = #{memberId}
     </select>
 
     <select id="selectMemberByUid" resultType="com.quickorderservice.dto.member.MemberDTO">
-        SELECT uid, memberId, password, name, tel, email, address
+        SELECT uid, memberId, password, name, tel, email, address, lat, lon
         FROM members
         WHERE uid = #{uid}
     </select>

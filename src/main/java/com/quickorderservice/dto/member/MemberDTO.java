@@ -16,8 +16,8 @@ public class MemberDTO {
     private String tel;
     private String email;
     private String address;
-    private double latitude;
-    private double longitude;
+    private double lat;
+    private double lon;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
