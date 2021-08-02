@@ -1,5 +1,6 @@
 package com.quickorderservice.controller;
 
+import com.quickorderservice.annotation.MemberId;
 import com.quickorderservice.annotation.OwnerId;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.enumdata.RestaurantCategory;
@@ -34,4 +35,12 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants(category, pageSize, page);
     }
 
+    @GetMapping("/delivery")
+    public List<RestaurantDTO> getAvailableDeliveryRestaurants(
+            @MemberId long memberUid,
+            @RequestParam(required = false) RestaurantCategory category,
+            @RequestParam(required = false, defaultValue = "10") int pageSize,
+            @RequestParam(required = false, defaultValue = "0") int page) {
+        return restaurantService.getAvailableDeliveryRestaurants(memberUid, category, pageSize, page);
+    }
 }
