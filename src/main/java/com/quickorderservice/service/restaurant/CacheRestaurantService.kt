@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 open class CacheRestaurantService(private val restaurantMapper: RestaurantMapper, private val geocoding: Geocoding) : IRestaurantService {
 
     override fun registerRestaurant(ownerUid: Long, restaurant: RestaurantDTO) {
-        val latLon: LatLonData = geocoding.getLatLon(null)
+        val latLon: LatLonData = geocoding.getLatLon(restaurant.address)
         restaurantMapper.insertRestaurant(ownerUid, restaurant, latLon)
     }
 
