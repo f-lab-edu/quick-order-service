@@ -16,11 +16,12 @@ import org.springframework.stereotype.Service
 open class CacheMenuService(private val menuMapper: MenuMapper,
                             private val restaurantService: RestaurantService) : IMenuService {
 
+    @Cacheable(key = "#restaurantUid", value = ["getAllMenusByRestaurant"])
     override fun getAllMenusByRestaurant(restaurantUid: Long): List<MenuDTO> {
         return menuMapper.selectAllMenuByRestaurantId(restaurantUid)
     }
 
-    @Cacheable(key = "#menuUid", value = ["getMenuByUid"])
+    @Cacheable(key = "{#restaurantUid, #menuUid}", value = ["getMenuByUid"])
     override fun getMenuByUid(restaurantUid: Long, menuUid: Long): MenuDTO {
         val menu = menuMapper.selectMenuByUid(menuUid)
 
