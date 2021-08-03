@@ -3,6 +3,7 @@ package com.quickorderservice.controller;
 import com.quickorderservice.annotation.OwnerId;
 import com.quickorderservice.dto.restaurant.RestaurantDTO;
 import com.quickorderservice.enumdata.RestaurantCategory;
+import com.quickorderservice.service.restaurant.IRestaurantService;
 import com.quickorderservice.service.restaurant.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RestaurantController {
 
-    private final RestaurantService restaurantService;
+    private final IRestaurantService restaurantService;
 
     @PostMapping
     public void registerRestaurant(@OwnerId long ownerUid, @RequestBody RestaurantDTO restaurant) {
@@ -34,4 +35,8 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants(category, pageSize, page);
     }
 
+    @GetMapping("/{restaurantUid}")
+    public RestaurantDTO getRestaurantByUid(@PathVariable long restaurantUid) {
+        return restaurantService.getRestaurantsByUid(restaurantUid);
+    }
 }
