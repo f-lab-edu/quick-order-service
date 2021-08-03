@@ -13,31 +13,34 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class MenuService {
+public class MenuService implements IMenuService {
 
     private final MenuMapper menuMapper;
     private final RestaurantService restaurantService;
 
-    public List<MenuDTO> getAllMenusByRestaurant(Long restaurantUid) {
+    @Override
+    public List<MenuDTO> getAllMenusByRestaurant(long restaurantUid) {
         return menuMapper.selectAllMenuByRestaurantId(restaurantUid);
     }
 
-    public MenuDTO getMenuByUid(Long menuUid) {
+    @Override
+    public MenuDTO getMenuByUid(long restaurantUid, long menuUid) {
         MenuDTO menu = menuMapper.selectMenuByUid(menuUid);
 
-        if(menu == null)
+        if (menu == null || menu.getRestaurantId() != restaurantUid)
             throw new NotFoundIdException("존재하지 않는 메뉴 입니다.");
 
         return menuMapper.selectMenuByUid(menuUid);
     }
 
-    public void registerMenu(long ownerUid, Long restaurantUid, MenuDTO menu) {
+    @Override
+    public void registerMenu(long ownerUid, long restaurantUid, MenuDTO menu) {
         if (!isMatchedOwnerAndRestaurant(ownerUid, restaurantUid))
             throw new IllegalArgumentException("잘못된 식당에 접근하였습니다.");
 
         int result = menuMapper.insertMenu(menu, restaurantUid);
 
-        if(result != 1)
+        if (result != 1)
             throw new RegisterException("정상적으로 메뉴가 등록되지 않았습니다.");
     }
 
@@ -49,4 +52,5 @@ public class MenuService {
 
         return restaurant.getOwnerId() == ownerUid;
     }
+
 }

@@ -2,7 +2,7 @@ package com.quickorderservice.controller;
 
 import com.quickorderservice.annotation.OwnerId;
 import com.quickorderservice.dto.menu.MenuDTO;
-import com.quickorderservice.service.menu.MenuService;
+import com.quickorderservice.service.menu.IMenuService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/restaurants")
 public class MenuController {
 
-    private final MenuService menuService;
+    private final IMenuService menuService;
 
     @PostMapping("/{restaurantUid}/menus")
     public void registerMenus(@OwnerId long ownerUid, @PathVariable Long restaurantUid, @RequestBody MenuDTO menu) {
@@ -25,8 +25,8 @@ public class MenuController {
         return menuService.getAllMenusByRestaurant(restaurantUid);
     }
 
-    @GetMapping("/menus/{menuUid}")
-    public MenuDTO getMenuByUid(@PathVariable Long menuUid) {
-        return menuService.getMenuByUid(menuUid);
+    @GetMapping("/{restaurantUid}/menus/{menuUid}")
+    public MenuDTO getMenuByUid(@PathVariable Long restaurantUid, @PathVariable Long menuUid) {
+        return menuService.getMenuByUid(restaurantUid, menuUid);
     }
 }
