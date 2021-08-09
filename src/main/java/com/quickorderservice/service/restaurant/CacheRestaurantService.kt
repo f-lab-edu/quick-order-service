@@ -5,15 +5,12 @@ import com.quickorderservice.enumdata.RestaurantCategory
 import com.quickorderservice.mapper.RestaurantMapper
 import com.quickorderservice.utiles.geo.Geocoding
 import com.quickorderservice.utiles.geo.LatLonData
-import lombok.AllArgsConstructor
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 
 @Service
-@AllArgsConstructor
-@Primary
-open class CacheRestaurantService(private val restaurantMapper: RestaurantMapper, private val geocoding: Geocoding) : IRestaurantService {
+open class CacheRestaurantService(private val restaurantMapper: RestaurantMapper, private val geocoding: Geocoding) :
+    RestaurantService {
 
     override fun registerRestaurant(ownerUid: Long, restaurant: RestaurantDTO) {
         val latLon: LatLonData = geocoding.getLatLon(restaurant.address)
@@ -24,7 +21,7 @@ open class CacheRestaurantService(private val restaurantMapper: RestaurantMapper
         return restaurantMapper.selectRestaurantsByOwnerId(ownerUid)
     }
 
-     override fun getAllRestaurants(category: RestaurantCategory?, pageSize: Int, page: Int): List<RestaurantDTO> {
+    override fun getAllRestaurants(category: RestaurantCategory?, pageSize: Int, page: Int): List<RestaurantDTO> {
         val restaurants = restaurantMapper.selectRestaurants(category, pageSize, page * pageSize)
         return restaurants
     }
