@@ -5,16 +5,15 @@ import com.quickorderservice.exception.NotFoundIdException
 import com.quickorderservice.exception.RegisterException
 import com.quickorderservice.mapper.MenuMapper
 import com.quickorderservice.service.restaurant.RestaurantService
-import lombok.AllArgsConstructor
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 
 @Service
-@AllArgsConstructor
-@Primary
-open class CacheMenuService(private val menuMapper: MenuMapper,
-                            private val restaurantService: RestaurantService) : IMenuService {
+open class CacheMenuService(
+    private val menuMapper: MenuMapper,
+    private val restaurantService: RestaurantService
+) : MenuService {
 
     @Cacheable(key = "#restaurantUid", value = ["getAllMenusByRestaurant"])
     override fun getAllMenusByRestaurant(restaurantUid: Long): List<MenuDTO> {
@@ -25,7 +24,8 @@ open class CacheMenuService(private val menuMapper: MenuMapper,
     override fun getMenuByUid(restaurantUid: Long, menuUid: Long): MenuDTO {
         val menu = menuMapper.selectMenuByUid(menuUid)
 
-        if (menu == null || menu.restaurantId != restaurantUid) throw NotFoundIdException("존재하지 않는 메뉴 입니다.")
+        if (menu == null || menu.restaurantId != restaurantUid)
+            throw NotFoundIdException("존재하지 않는 메뉴 입니다.")
 
         return menuMapper.selectMenuByUid(menuUid)
     }

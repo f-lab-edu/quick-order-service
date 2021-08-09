@@ -2,7 +2,7 @@ package com.quickorderservice.service.menu
 
 import com.quickorderservice.dto.menu.MenuDTO
 
-interface IMenuService {
+interface MenuService {
 
     fun getAllMenusByRestaurant(restaurantUid: Long): List<MenuDTO>
 
