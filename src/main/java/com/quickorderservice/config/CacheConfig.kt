@@ -22,8 +22,8 @@ open class CacheConfig(private val connectionFactory: RedisConnectionFactory) {
                     GenericJackson2JsonRedisSerializer()
                 )
             )
+
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
             .cacheDefaults(redisCacheConfiguration).build()
     }
-
 }
