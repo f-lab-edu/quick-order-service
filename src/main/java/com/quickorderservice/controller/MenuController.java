@@ -25,8 +25,8 @@ public class MenuController {
         return menuService.getAllMenusByRestaurant(restaurantUid);
     }
 
-    @GetMapping("/menus/{menuUid}")
-    public MenuDTO getMenuByUid(@PathVariable Long menuUid) {
-        return menuService.getMenuByUid(menuUid);
+    @GetMapping("/{restaurantUid}/menus/{menuUid}")
+    public MenuDTO getMenuByUid(@PathVariable Long restaurantUid, @PathVariable Long menuUid) {
+        return menuService.getMenuByUid(restaurantUid, menuUid);
     }
 }

@@ -34,4 +34,8 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants(category, pageSize, page);
     }
 
+    @GetMapping("/{restaurantUid}")
+    public RestaurantDTO getRestaurantByUid(@PathVariable long restaurantUid) {
+        return restaurantService.getRestaurantsByUid(restaurantUid);
+    }
 }
