@@ -33,7 +33,7 @@ class MemberServiceTest {
     @DisplayName("회원 가입")
     void joinMember() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         int result = memberService.joinMember(member);
         Assertions.assertThat(result).isEqualTo(1);
@@ -43,7 +43,7 @@ class MemberServiceTest {
     @DisplayName("회원 조회")
     void findMemberById() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
@@ -64,7 +64,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 회원 삭제시 1을 반환한다.")
     void deleteMember() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), "1234");
@@ -77,7 +77,7 @@ class MemberServiceTest {
     @DisplayName("회원 삭제시 비밀번호를 잘못 입력하면 NotFoundIdException 발생한다.")
     void deleteMemberWithWrongPassword() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
 
@@ -89,8 +89,8 @@ class MemberServiceTest {
     @Test
     @DisplayName("정상적으로 회원 정보 수정시 에러가 발생하지 않는다.")
     void editMemberInfo() {
-        MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+        MemberDTO member = new MemberDTO(1l, "test", "1234", "jang", "010-0000-0000",
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), "1234");
@@ -105,7 +105,7 @@ class MemberServiceTest {
         String oldPassword = "1234";
         String newPassword = "7890";
         MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
@@ -119,7 +119,7 @@ class MemberServiceTest {
         String oldPassword = "1234";
         String newPassword = "7890";
         MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
@@ -135,13 +135,14 @@ class MemberServiceTest {
         String oldPassword = "1234";
         String newPassword = "1234";
         MemberDTO member = new MemberDTO(null, "test", oldPassword, "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         memberService.joinMember(member);
         loginService.login(member.getMemberId(), oldPassword);
+        MemberDTO findMember = memberService.findMemberById(member.getMemberId());
 
         assertThrows(EditException.class, () -> {
-            memberService.editMemberPassword(member.getUid(), oldPassword, newPassword);
+            memberService.editMemberPassword(findMember.getUid(), oldPassword, newPassword);
         });
     }
 }

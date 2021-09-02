@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 public class MenuDTO {
 
-    private long uid;
+    private Long uid;
     private long restaurantId;
     private String name;
     private int price;

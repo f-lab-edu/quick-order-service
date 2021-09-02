@@ -6,6 +6,7 @@ import com.quickorderservice.exception.NotFoundIdException;
 import com.quickorderservice.exception.auth.NeedLoginException;
 import com.quickorderservice.service.owner.OwnerLoginService;
 import com.quickorderservice.service.owner.OwnerService;
+import com.quickorderservice.utiles.geo.LatLonData;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,10 +37,9 @@ class RestaurantMapperTest {
 
         OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
-        RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234", null,
-                LocalDateTime.now(), LocalDateTime.now());
+        RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "-", null, 0, 0, null, null, null);
 
-        restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
+        restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant, new LatLonData(0, 0));
         List<RestaurantDTO> restaurants = restaurantMapper.selectRestaurantsByOwnerId(findOwner.getUid());
 
         Assertions.assertThat(restaurants.size()).isEqualTo(1);
@@ -54,10 +54,9 @@ class RestaurantMapperTest {
         org.junit.jupiter.api.Assertions.assertThrows(NeedLoginException.class, () -> {
             OwnerDTO findOwner = ownerService.findOwnerByUid(ownerLoginService.getLoginUid());
 
-            RestaurantDTO restaurant = new RestaurantDTO(null, findOwner.getUid(), "test", "1234", null,
-                    LocalDateTime.now(), LocalDateTime.now());
+            RestaurantDTO restaurant = new RestaurantDTO(1L, 1L, "res", "-", null, 0, 0, null, null, null);
 
-            restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant);
+            restaurantMapper.insertRestaurant(findOwner.getUid(), restaurant, new LatLonData(0, 0));
         });
     }
 }

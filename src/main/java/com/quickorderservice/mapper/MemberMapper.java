@@ -20,7 +20,7 @@ public interface MemberMapper {
 
     int updateMember(MemberDTO memberDTO);
 
-    int updateMemberPassword(MemberDTO memberDTO, String password);
+    int updateMemberPassword(@Param("member") MemberDTO memberDTO, @Param("password") String password);
 
     List<MemberDTO> selectAllMembers();
 

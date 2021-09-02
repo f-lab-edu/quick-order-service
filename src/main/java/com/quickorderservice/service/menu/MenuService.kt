@@ -9,4 +9,6 @@ interface MenuService {
     fun getMenuByUid(restaurantUid: Long, menuUid: Long): MenuDTO
 
     fun registerMenu(ownerUid: Long, restaurantUid: Long, menu: MenuDTO)
+
+    fun getMenuUidAndRestaurantUid(menuUid: Long, restaurantUid: Long): MenuDTO?
 }

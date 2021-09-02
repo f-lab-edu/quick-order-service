@@ -51,7 +51,7 @@
         update members set
         password = #{password},
         updatedAt = now()
-        where uid = #{uid}
+        where uid = #{member.uid}
     </update>
 
 </mapper>

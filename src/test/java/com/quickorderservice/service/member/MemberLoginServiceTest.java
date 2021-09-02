@@ -30,7 +30,7 @@ class MemberLoginServiceTest {
     @BeforeEach
     public void beforeEach() {
         MemberDTO member = new MemberDTO(null, "test", "1234", "jang", "010-0000-0000",
-                "test@naver.com", "korea", LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+                "test@naver.com", "분당구 불정로 6", 0, 0, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
         memberService.joinMember(member);
     }
 

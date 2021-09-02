@@ -41,4 +41,8 @@ open class CacheMenuService(
         val restaurant = restaurantService.getRestaurantsByUid(restaurantUid)
         return restaurant.ownerId == ownerUid
     }
+
+    override fun getMenuUidAndRestaurantUid(menuUid: Long, restaurantUid: Long): MenuDTO? {
+        return menuMapper.selectMenuByUidAndRestaurantUid(menuUid, restaurantUid)
+    }
 }

@@ -1,6 +1,7 @@
 package com.quickorderservice.mapper;
 
 import com.quickorderservice.dto.member.MemberDTO;
+import com.quickorderservice.utiles.geo.LatLonData;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,10 +28,10 @@ class MemberMapperTest {
     void insertMemberAndFindMemberById() {
         MemberDTO memberDTO = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        int result = memberMapper.insertMember(memberDTO);
+        int result = memberMapper.insertMember(memberDTO, "1234", new LatLonData(0, 0));
         Assertions.assertThat(result).isEqualTo(1);
 
         MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getMemberId());
@@ -43,10 +44,10 @@ class MemberMapperTest {
     void insertMemberAndFindMemberByIdAndPassword() {
         MemberDTO memberDTO = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        int result = memberMapper.insertMember(memberDTO);
+        int result = memberMapper.insertMember(memberDTO, "1234", new LatLonData(0, 0));
         Assertions.assertThat(result).isEqualTo(1);
 
         MemberDTO findMember = memberMapper.selectMemberByIdAndPassword(memberDTO.getMemberId(), memberDTO.getPassword());
@@ -58,10 +59,10 @@ class MemberMapperTest {
     void deleteMember() {
         MemberDTO memberDTO = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        memberMapper.insertMember(memberDTO);
+        memberMapper.insertMember(memberDTO, "1234", new LatLonData(0, 0));
 
         MemberDTO findMember = memberMapper.selectMemberById(memberDTO.getMemberId());
         int result = memberMapper.deleteMember(findMember.getUid());
@@ -72,15 +73,15 @@ class MemberMapperTest {
     void findAllMembers() {
         MemberDTO memberDTO1 = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
         MemberDTO memberDTO2 = new MemberDTO(
                 null, "test2", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        memberMapper.insertMember(memberDTO1);
-        memberMapper.insertMember(memberDTO2);
+        memberMapper.insertMember(memberDTO1, "1234", new LatLonData(0, 0));
+        memberMapper.insertMember(memberDTO2, "1234", new LatLonData(0, 0));
 
         List<MemberDTO> members = memberMapper.selectAllMembers();
 
@@ -93,16 +94,16 @@ class MemberMapperTest {
     void updateMember() {
         MemberDTO memberDTO1 = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        memberMapper.insertMember(memberDTO1);
+        memberMapper.insertMember(memberDTO1, "1234", new LatLonData(0, 0));
 
         MemberDTO findMember = memberMapper.selectMemberById(memberDTO1.getMemberId());
 
         MemberDTO memberDTO2 = new MemberDTO(
                 findMember.getUid(), "edit", "4567", "newName",
-                "010-1111-2222", "test@gmail.com", "seoul",
+                "010-1111-2222", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
         int result = memberMapper.updateMember(memberDTO2);
@@ -118,10 +119,10 @@ class MemberMapperTest {
     void updateMemberPassword() {
         MemberDTO memberDTO1 = new MemberDTO(
                 null, "test1", "1234", "test",
-                "010-0000-000", "test@gmail.com", "seoul",0,0,
+                "010-0000-000", "test@gmail.com", "seoul", 0, 0,
                 LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
 
-        memberMapper.insertMember(memberDTO1);
+        memberMapper.insertMember(memberDTO1, "1234", new LatLonData(0, 0));
 
         String newPassword = "9876";
         MemberDTO findMember1 = memberMapper.selectMemberById(memberDTO1.getMemberId());

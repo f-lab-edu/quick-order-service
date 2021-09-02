@@ -1,5 +1,6 @@
 package com.quickorderservice.utiles.geo;
 
+import com.quickorderservice.exception.GeoException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class GeocodingTest {
 
-    @Autowired Geocoding geocoding;
+    @Autowired
+    Geocoding geocoding;
 
     @Test
     @DisplayName("정상적으로 주소를 입력하면 geo 데이터를 불러온다.")
@@ -24,16 +26,10 @@ class GeocodingTest {
     }
 
     @Test
-    @DisplayName("잘못된 주소를 입력하면 geo 데이터는 비어있다.")
+    @DisplayName("잘못된 주소를 입력하면 예외를 발생시킨다")
     public void geoWithWrongAddress() {
-        GeoData geoDataByAddress = geocoding.getGeoDataByAddress("잘못된 주소");
-
-        GeoData.Meta meta = geoDataByAddress.getMeta();
-        GeoData.Address[] addresses = geoDataByAddress.getAddresses();
-
-        Assertions.assertThat(addresses).isEmpty();
-        Assertions.assertThat(meta.getCount()).isEqualTo(0);
-        Assertions.assertThat(geoDataByAddress.getStatus()).isEqualTo("OK");
-        Assertions.assertThat(geoDataByAddress.getAddresses().length).isEqualTo(0);
+        assertThrows(GeoException.class, () -> {
+            GeoData geoDataByAddress = geocoding.getGeoDataByAddress("잘못된 주소");
+        });
     }
 }
